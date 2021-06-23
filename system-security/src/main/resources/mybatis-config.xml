@@ -1,0 +1,25 @@
+?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 这个配置使全局的映射器启用或禁用缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 允许jdbc支持生成的键 -->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!-- 配置默认的执行器 -->
+        <setting name="defaultExecutorType" value="REUSE"/>
+        <!-- 全局启用或禁用延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 设置超时时间，它决定驱动等待一个数据库响应的时间 -->
+        <setting name="defaultStatementTimeout" value="25000"/>
+    </settings>
+    <!-- 别名配置 -->
+    <typeAliases>
+        <!--<typeAlias alias="role" type="com.ssm.pojo.Role"/>-->
+    </typeAliases>
+    <!-- 指定映射器路径 -->
+    <mappers>
+
+    </mappers>
+</configuration>

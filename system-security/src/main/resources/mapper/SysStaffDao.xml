@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="authentication.dao.staff.SysStaffDao">
+
+    <select id="getById" resultType="authentication.entity.SysStaffEntity">
+        select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
+          where t1.id = #{value} and t1.del_flag = 0
+    </select>
+
+    <select id="getByUsername" resultType="authentication.entity.SysStaffEntity">
+        select * from sys_user where username = #{value} and del_flag = 0
+    </select>
+
+</mapper>
