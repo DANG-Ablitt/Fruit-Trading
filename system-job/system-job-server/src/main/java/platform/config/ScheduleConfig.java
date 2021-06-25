@@ -1,8 +1,12 @@
 package platform.config;
 
+import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import utils.SpringContextUtils;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -16,10 +20,9 @@ public class ScheduleConfig {
     public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource) {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setDataSource(dataSource);
-
         //quartz参数
         Properties prop = new Properties();
-        prop.put("org.quartz.scheduler.instanceName", "RenrenScheduler");
+        prop.put("org.quartz.scheduler.instanceName", "Scheduler");
         prop.put("org.quartz.scheduler.instanceId", "AUTO");
         //线程池配置
         prop.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
@@ -41,7 +44,7 @@ public class ScheduleConfig {
 
         factory.setQuartzProperties(prop);
 
-        factory.setSchedulerName("RenrenScheduler");
+        factory.setSchedulerName("Scheduler");
         //延时启动
         factory.setStartupDelay(30);
         factory.setApplicationContextSchedulerContextKey("applicationContextKey");
@@ -49,7 +52,16 @@ public class ScheduleConfig {
         factory.setOverwriteExistingJobs(true);
         //设置自动启动，默认为true
         factory.setAutoStartup(true);
-
         return factory;
+    }
+
+    /**
+     *注意：必须在这里配置
+     * 否则spring无法自动调用setApplicationContext
+     * 使用时会出现无法获取applicationContext，并抛出NullPointerException
+     */
+    @Bean
+    public SpringContextUtils springContextsUtil(){
+        return new SpringContextUtils();
     }
 }

@@ -31,7 +31,7 @@ public class ScheduleUtils {
     }
 
     /**
-     * 获取表达式触发器
+     * 获取表达式触发器CronTrigger
      */
     public static CronTrigger getCronTrigger(Scheduler scheduler, Long jobId) {
         try {
@@ -48,19 +48,15 @@ public class ScheduleUtils {
         try {
         	//构建job信息
             JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(getJobKey(scheduleJob.getId())).build();
-
             //表达式调度构建器
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
             		.withMisfireHandlingInstructionDoNothing();
-
             //按新的cronExpression表达式构建一个新的trigger
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getId())).withSchedule(scheduleBuilder).build();
-
             //放入参数，运行时的方法可以获取
             jobDetail.getJobDataMap().put(JOB_PARAM_KEY, scheduleJob);
-
+            //开始执行
             scheduler.scheduleJob(jobDetail, trigger);
-            
             //暂停任务
             if(scheduleJob.getStatus() == ScheduleStatusEnum.PAUSE.value()){
             	pauseJob(scheduler, scheduleJob.getId());
@@ -109,7 +105,8 @@ public class ScheduleUtils {
         	//参数
         	JobDataMap dataMap = new JobDataMap();
         	dataMap.put(JOB_PARAM_KEY, scheduleJob);
-        	
+        	System.out.println(getJobKey(scheduleJob.getId()));
+            System.out.println(dataMap);
             scheduler.triggerJob(getJobKey(scheduleJob.getId()), dataMap);
         } catch (SchedulerException e) {
             throw new RenException(ModuleErrorCode.JOB_ERROR, e);

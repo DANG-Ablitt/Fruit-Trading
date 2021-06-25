@@ -97,6 +97,7 @@ public class ScheduleJobServiceImpl extends BaseServiceImpl<ScheduleJobDao, Sche
     public void run(Long[] ids) {
     	for(Long id : ids){
     		ScheduleUtils.run(scheduler, this.selectById(id));
+    		System.out.println(scheduler);
     	}
     }
 

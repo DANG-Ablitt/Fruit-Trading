@@ -1,10 +1,13 @@
 package platform.controller;
 
+import org.quartz.Scheduler;
 import page.PageData;
+import platform.dao.ScheduleJobDao;
 import platform.dto.ScheduleJobDTO;
 import platform.service.ScheduleJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import platform.utils.ScheduleUtils;
 import utils.Result;
 import validator.ValidatorUtils;
 import java.util.Map;
@@ -16,7 +19,11 @@ import java.util.Map;
 @RequestMapping("schedule")
 public class ScheduleJobController {
 	@Autowired
+	private Scheduler scheduler;
+	@Autowired
 	private ScheduleJobService scheduleJobService;
+	@Autowired
+	private ScheduleJobDao scheduleJobDao;
 
 	@GetMapping("page")
 	public Result<PageData<ScheduleJobDTO>> page(@RequestParam Map<String, Object> params){
@@ -53,6 +60,12 @@ public class ScheduleJobController {
 	@PutMapping("/run")
 	public Result run(@RequestBody Long[] ids){
 		scheduleJobService.run(ids);
+		return new Result();
+	}
+	@GetMapping("/run1/{ids}")
+	public Result run1(@PathVariable("ids") Long ids){
+		//scheduleJobService.run(ids);
+		ScheduleUtils.run(scheduler, scheduleJobDao.selectById(ids));
 		return new Result();
 	}
 
