@@ -1,6 +1,7 @@
 package authentication.config;
 
 
+import authentication.config.security.WebSecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
@@ -8,7 +9,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     //spring Ioc环境配置
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringConfig.class};
+        return new Class[]{SpringConfig.class,WebSecurityConfig.class};
     }
 
     //dispatcherServlet环境配置
@@ -20,6 +21,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     //拦截请求配置
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[]{"/image_captcha","/QR_code"};
     }
 }

@@ -1,11 +1,15 @@
 package authentication.config;
 
+import authentication.filter.authenticationprovider.NamePassLoginAuthenticationProvider;
+import authentication.redis.config.JsonRedisSerializer;
+import authentication.redis.config.RedisParameter;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +18,12 @@ import com.google.code.kaptcha.util.Config;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import redis.clients.jedis.JedisPoolConfig;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,6 +31,9 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import utils.SpringContextUtils;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import static com.google.common.collect.Lists.newArrayList;
@@ -35,6 +48,8 @@ import static com.google.common.collect.Lists.newArrayList;
 //发现映射器
 @MapperScan(basePackages="authentication.dao")
 public class SpringConfig {
+    @Autowired
+    private RedisParameter redisparameter;
     /*
      * 绑定资源属性
      */
@@ -123,4 +138,50 @@ public class SpringConfig {
         dataSource.setPassword(passWord);
         return dataSource;
     }
+
+    /**
+     * 配置 Jedis 连接池
+     */
+    @Bean
+    public JedisPoolConfig redispoolconfig(){
+        JedisPoolConfig PoolConfig=new JedisPoolConfig();
+        PoolConfig.setMaxTotal(redisparameter.getMaxTotal());
+        PoolConfig.setMaxIdle(redisparameter.getMaxIdle());
+        PoolConfig.setMinIdle(redisparameter.getMinIdle());
+        PoolConfig.setTestOnBorrow(redisparameter.getTestOnBorrow());
+        return PoolConfig;
+    }
+
+    @Bean
+    public JedisConnectionFactory redisConnectionFactory() {
+        JedisConnectionFactory jedisConnection=new JedisConnectionFactory();
+        jedisConnection.setHostName(redisparameter.getHost());
+        jedisConnection.setPort(redisparameter.getPort());
+        jedisConnection.setPassword(redisparameter.getPassword());
+        jedisConnection.setPoolConfig(redispoolconfig());
+        //暂时不开启哨兵模式
+        return jedisConnection;
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new JsonRedisSerializer<Object>(Object.class));
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new JsonRedisSerializer<Object>(Object.class));
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        return redisTemplate;
+    }
+
+    /**
+     *注意：必须在这里配置
+     * 否则spring无法自动调用setApplicationContext
+     * 使用时会出现无法获取applicationContext，并抛出NullPointerException
+     */
+    @Bean
+    public SpringContextUtils springContextsUtil(){
+        return new SpringContextUtils();
+    }
+
 }

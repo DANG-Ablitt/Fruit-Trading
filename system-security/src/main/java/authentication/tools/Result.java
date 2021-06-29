@@ -1,13 +1,17 @@
-package utils;
+package authentication.tools;
 
 import exception.ErrorCode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import utils.MessageUtils;
+
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * 响应数据
  */
-
-public class Result<T> implements Serializable {
+public class Result<T> implements Authentication,Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 编码：0表示成功，其他值表示失败
@@ -79,4 +83,38 @@ public class Result<T> implements Serializable {
         this.data = data;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
+
+    @Override
+    public Object getDetails() {
+        return null;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return null;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return false;
+    }
+
+    @Override
+    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }

@@ -5,9 +5,11 @@ import authentication.dto.AuthorizationDTO;
 import authentication.entity.SysStaffEntity;
 import authentication.jwt.JwtProperties;
 import authentication.jwt.JwtUtils;
+import authentication.redis.detailredis.StaffDetailRedis;
 import authentication.service.CaptchaService;
 import authentication.service.SysResourceService;
 import authentication.service.SysRoleDataScopeService;
+import authentication.tools.Result;
 import exception.ErrorCode;
 import exception.RenException;
 import log.SysLogLogin;
@@ -18,7 +20,7 @@ import log.producer.LogProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
-import redis.detailredis.StaffDetailRedis;
+import org.springframework.stereotype.Component;
 import security.bo.ResourceBO;
 import security.enums.UserKillEnum;
 import security.password.PasswordUtils;
@@ -26,7 +28,6 @@ import security.user.StaffDetail;
 import utils.ConvertUtils;
 import utils.HttpContextUtils;
 import utils.IpUtils;
-import utils.Result;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +35,8 @@ import java.util.List;
 public class NamePassLogin implements JwtService {
     @Autowired
     private CaptchaService captchaService;
-    @Autowired
-    private LogProducer logProducer;
+    //@Autowired
+    //private LogProducer logProducer;
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
@@ -58,7 +59,7 @@ public class NamePassLogin implements JwtService {
         String captcha=(String) authentication.getDetails();
         //public boolean validate(String uuid, String code)
         //从缓存中根据uuid获取验证码并效验
-        boolean flag = captchaService.validate((String) authentication.getPrincipal(), captcha);
+        boolean flag = new CaptchaService().validate((String) authentication.getPrincipal(), captcha);
         if(!flag){
             return new Result<AuthorizationDTO>().error(ErrorCode.CAPTCHA_ERROR);
         }
@@ -80,7 +81,7 @@ public class NamePassLogin implements JwtService {
         if(staff == null){
             log.setStatus(LoginStatusEnum.FAIL.value());
             log.setCreatorName(authentication.getName());
-            logProducer.saveLog(log);
+            //logProducer.saveLog(log);
             throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
         }
         //密码错误
@@ -88,7 +89,7 @@ public class NamePassLogin implements JwtService {
             log.setStatus(LoginStatusEnum.FAIL.value());
             log.setCreator(staff.getId());
             log.setCreatorName(staff.getUsername());
-            logProducer.saveLog(log);
+            //logProducer.saveLog(log);
             throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
         }
 
@@ -97,7 +98,7 @@ public class NamePassLogin implements JwtService {
             log.setStatus(LoginStatusEnum.LOCK.value());
             log.setCreator(staff.getId());
             log.setCreatorName(staff.getUsername());
-            logProducer.saveLog(log);
+            //logProducer.saveLog(log);
             throw new RenException(ErrorCode.ACCOUNT_DISABLE);
         }
 
@@ -113,7 +114,7 @@ public class NamePassLogin implements JwtService {
         log.setCreator(staff.getId());
         log.setCreatorName(staff.getUsername());
         log.setStatus(LoginStatusEnum.SUCCESS.value());
-        logProducer.saveLog(log);
+        //logProducer.saveLog(log);
         return new Result<AuthorizationDTO>().ok(authorization1);
     }
 

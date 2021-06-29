@@ -1,11 +1,11 @@
-package redis.detailredis;
+package authentication.redis.detailredis;
 
+import authentication.redis.config.RedisKeys;
+import authentication.redis.config.RedisUtils;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import redis.RedisKeys;
-import redis.RedisUtils;
 import security.enums.UserKillEnum;
 import security.user.StaffDetail;
 import java.util.Map;

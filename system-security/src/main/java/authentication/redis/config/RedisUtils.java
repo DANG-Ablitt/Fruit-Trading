@@ -1,4 +1,4 @@
-package redis;
+package authentication.redis.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Redis工具类
  */
-
+@Component
 public class RedisUtils {
 
     @Autowired

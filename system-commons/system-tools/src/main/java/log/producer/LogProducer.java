@@ -4,8 +4,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import log.BaseLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import redis.RedisKeys;
-import redis.RedisUtils;
 
 import java.util.concurrent.*;
 
@@ -15,19 +13,19 @@ import java.util.concurrent.*;
  */
 @Component
 public class LogProducer {
-    @Autowired
-    private RedisUtils redisUtils;
-    ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("log-producer-pool-%d").build();
-    ExecutorService pool = new ThreadPoolExecutor(5, 200, 0L,TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+    //@Autowired
+    //private RedisUtils redisUtils;
+    //ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("log-producer-pool-%d").build();
+    //ExecutorService pool = new ThreadPoolExecutor(5, 200, 0L,TimeUnit.MILLISECONDS,
+            //new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
     /**
      * 保存Log到Redis消息队列
      */
     public void saveLog(BaseLog log){
-        String key = RedisKeys.getSysLogKey();
+        //String key = RedisKeys.getSysLogKey();
 
         //异步保存到队列
-        pool.execute(() -> redisUtils.leftPush(key, log, RedisUtils.NOT_EXPIRE));
+        //pool.execute(() -> redisUtils.leftPush(key, log, RedisUtils.NOT_EXPIRE));
     }
 }

@@ -1,10 +1,7 @@
 package security.user;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * 登录用户信息

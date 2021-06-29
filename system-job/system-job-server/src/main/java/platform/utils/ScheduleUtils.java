@@ -86,6 +86,9 @@ public class ScheduleUtils {
             trigger.getJobDataMap().put(JOB_PARAM_KEY, scheduleJob);
             
             scheduler.rescheduleJob(triggerKey, trigger);
+            JobDataMap dataMap = new JobDataMap();
+            dataMap.put(JOB_PARAM_KEY, scheduleJob);
+            scheduler.triggerJob(getJobKey(scheduleJob.getId()), dataMap);
             
             //暂停任务
             if(scheduleJob.getStatus() == ScheduleStatusEnum.PAUSE.value()){

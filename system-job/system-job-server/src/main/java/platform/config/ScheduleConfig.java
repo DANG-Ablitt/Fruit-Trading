@@ -1,12 +1,9 @@
 package platform.config;
 
-import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import utils.SpringContextUtils;
-
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -19,31 +16,26 @@ public class ScheduleConfig {
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource) {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        //引入mqsql数据源
         factory.setDataSource(dataSource);
-        //quartz参数
+        /**
+         * quartz参数（这里不使用quartz.properties配置文件）
+         */
         Properties prop = new Properties();
+        //区分特定的调度器实例，可以按照功能用途给调度器起名
         prop.put("org.quartz.scheduler.instanceName", "Scheduler");
+        //必须唯一，在集群环境中作为集群的唯一key（这里配置quartz自动生成）
         prop.put("org.quartz.scheduler.instanceId", "AUTO");
-        //线程池配置
+        /**
+         * 线程池配置
+         */
+        //配置线程池实现类
         prop.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
+        //处理job的线程个数（至少为1，最多不要超过100）
         prop.put("org.quartz.threadPool.threadCount", "20");
+        //线程的优先级（1~10）
         prop.put("org.quartz.threadPool.threadPriority", "5");
-        //JobStore配置
-        prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
-        //集群配置
-        prop.put("org.quartz.jobStore.isClustered", "true");
-        prop.put("org.quartz.jobStore.clusterCheckinInterval", "15000");
-        prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
-
-        prop.put("org.quartz.jobStore.misfireThreshold", "12000");
-        prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
-        prop.put("org.quartz.jobStore.selectWithLockSQL", "SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?");
-
-        //PostgreSQL数据库，需要打开此注释
-        //prop.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate");
-
         factory.setQuartzProperties(prop);
-
         factory.setSchedulerName("Scheduler");
         //延时启动
         factory.setStartupDelay(30);

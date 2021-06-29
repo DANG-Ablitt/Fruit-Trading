@@ -2,8 +2,10 @@ package authentication.service;
 
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import authentication.redis.CaptchaRedis;
+import utils.SpringContextUtils;
 import java.awt.image.BufferedImage;
 
 /**
@@ -43,7 +45,8 @@ public class CaptchaService {
      * 从redis中获取验证码并效验验证码
      */
     public boolean validate(String uuid, String code) {
-        String captcha = captchaRedis.get(uuid);
+        System.out.println(SpringContextUtils.getBean(CaptchaRedis.class));
+        String captcha = SpringContextUtils.getBean(CaptchaRedis.class).get(uuid);
         //验证码是否正确
         if(code.equalsIgnoreCase(captcha)){
             return true;

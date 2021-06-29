@@ -1,4 +1,4 @@
-package redis;
+package authentication.redis.config;
 
 public class RedisKeys {
     /**

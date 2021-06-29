@@ -1,4 +1,4 @@
-package redis;
+package authentication.redis.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Data
-@PropertySource(value = "redis.properties")
+//加载Redis配置文件
+@PropertySource({"classpath:redis.properties"})
 public class RedisParameter {
     @Value("${redis.pool.maxTotal}")
     private Integer maxTotal;
