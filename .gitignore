@@ -17,3 +17,11 @@
 /system-security/target/
 /system-security/system-security.iml
 /Fruit-Trading.iml
+/system-admin/platform-admin.iml
+/system-admin/system-admin-client/target/
+/system-admin/system-admin-client/platform-admin-client.iml
+/system-admin/system-admin-server/target/
+/system-admin/system-admin-server/platform-admin-server.iml
+/system-admin/system-admin.iml
+/system-admin/system-admin-server/system-admin-server.iml
+/system-admin/system-admin-client/system-admin-client.iml

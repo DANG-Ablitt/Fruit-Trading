@@ -22,7 +22,6 @@ import java.util.Map;
 
 /**
  * 异常处理器
- * @since 1.0.0
  */
 @RestControllerAdvice
 public class RenExceptionHandler {

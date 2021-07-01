@@ -2,7 +2,6 @@ package log;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import java.util.Date;
 
 /**

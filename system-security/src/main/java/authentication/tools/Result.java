@@ -90,12 +90,12 @@ public class Result<T> implements Authentication,Serializable {
 
     @Override
     public Object getCredentials() {
-        return null;
+        return getCode();
     }
 
     @Override
     public Object getDetails() {
-        return null;
+        return getData();
     }
 
     @Override

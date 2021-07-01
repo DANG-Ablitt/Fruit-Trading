@@ -66,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:8001"); // 根据实际的需要去设置
+        configuration.addAllowedOrigin("http://localhost:8081"); // 根据实际的需要去设置
         configuration.addAllowedMethod("*"); // 同上
         configuration.addAllowedHeader("*");
         configuration.setMaxAge(3600L);

@@ -3,6 +3,7 @@ package authentication.filter.authenticationprocessingfilter;
 import authentication.dto.NamePassLoginDTO;
 import authentication.filter.authenticationprovider.NamePassLoginAuthenticationProvider;
 import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -13,12 +14,17 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import authentication.redis.LoginRedis;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 手机号+密码+图形验证码登录过滤器
@@ -102,5 +108,12 @@ public class NamePassLoginAuthenticationProcessingFilter extends AbstractAuthent
         //return parentAuthenticationManager.authenticate(authRequest);
     }
 
-
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException{
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=utf-8");
+        String json = JSON.toJSONString(authResult);
+        PrintWriter writer = response.getWriter();
+        writer.write(json);
+    }
 }

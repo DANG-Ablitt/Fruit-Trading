@@ -25,7 +25,5 @@ public class SysStaffServiceTest {
     public void test() throws Exception {
         SysStaffEntity list=sysStaffDao.getByUsername("admin");
         System.out.println(list);
-        //System.out.println(SpringContextUtils.getBean(CaptchaService.class));
-
     }
 }

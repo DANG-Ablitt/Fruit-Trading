@@ -13,6 +13,10 @@ public class SysStaffEntity  {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * id
+	 */
+	private Long id;
+	/**
 	 * 用户名
 	 */
 	private String username;

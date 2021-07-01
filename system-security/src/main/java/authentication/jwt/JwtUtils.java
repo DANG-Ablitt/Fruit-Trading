@@ -6,8 +6,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import utils.SpringContextUtils;
 import java.util.Date;
 
 /**
@@ -17,9 +17,6 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Autowired
-    private JwtProperties jwtProperties;
-
     /**
      * 生成jwt token
      */
@@ -28,15 +25,15 @@ public class JwtUtils {
             .setHeaderParam("typ", "JWT")
             .setSubject(userId+"")
             .setIssuedAt(new Date())
-            .setExpiration(DateTime.now().plusSeconds(jwtProperties.getExpire()).toDate())
-            .signWith(SignatureAlgorithm.HS512, jwtProperties.getSecret())
+            .setExpiration(DateTime.now().plusSeconds(SpringContextUtils.getBean(JwtProperties.class).getExpire()).toDate())
+            .signWith(SignatureAlgorithm.HS512, SpringContextUtils.getBean(JwtProperties.class).getSecret())
             .compact();
     }
 
     public Claims getClaimByToken(String token) {
         try {
             return Jwts.parser()
-                .setSigningKey(jwtProperties.getSecret())
+                .setSigningKey(SpringContextUtils.getBean(JwtProperties.class).getSecret())
                 .parseClaimsJws(token)
                 .getBody();
         }catch (Exception e){
