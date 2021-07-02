@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: system-gateway-server
+  cloud:
+    gateway:
+      locator:
+        enabled: true
+      routes:
+        #认证服务
+        - id: system-auth-server
+          uri: lb://system-auth-server
+          order: 1
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=0
+
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    metadata-map:
+      management:
+        context-path: /actuator
+    health-check-url-path: /actuator/health
+    status-page-url-path: /actuator/info
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000 #缺省为1000
+
+ribbon:
+  ReadTimeout: 300000
+  ConnectTimeout: 300000
+
+renren:
+  urls:
+    #请求验证码
+    - /auth/captcha
+    #登录
+    - /auth/login
