@@ -1,0 +1,15 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: system-register-server
+
+eureka:
+  server:
+    enable-self-preservation: false
+    url: http://127.0.0.1:8761
+
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
