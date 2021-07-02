@@ -1,0 +1,74 @@
+server:
+  port: 8066
+  servlet:
+    context-path: /auth
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: system-auth-server
+  #环境 dev|test|prod
+  profiles:
+    active: dev
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages_common
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  redis:
+    database: 0
+    host: 10.0.0.6
+    timeout: 30s
+    password: 123456
+    port: 6379
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
+    health-check-url-path: ${server.servlet.context-path}/actuator/health
+    status-page-url-path: ${server.servlet.context-path}/actuator/info
+  client:
+    service-url:
+      #监控页面
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+feign:
+  hystrix:
+    enabled: true
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000 #缺省为1000
+
+
+ribbon:
+  ReadTimeout: 300000
+  ConnectTimeout: 300000
+
+jwt:
+  #秘钥
+  secret: f4e2e52034348f86b67cde5[www.renren.io]
+  #token有效时长，默认7天，单位秒
+  expire: 604800
