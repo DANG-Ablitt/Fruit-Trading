@@ -37,19 +37,15 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
     public PageData<SysUserDTO> page(Map<String, Object> params) {
         //转换成like
         paramsToLike(params, "username");
-
         //分页
         IPage<SysUserEntity> page = getPage(params, Constant.CREATE_DATE, false);
-
         //普通管理员，只能查询所属部门及子部门的数据
         StaffDetail user = SecurityStaff.getStaff();
         if(user.getSuperAdmin() == SuperAdminEnum.NO.value()) {
             params.put("deptIdList", sysDeptService.getSubDeptIdList(user.getDeptId()));
         }
-
         //查询
         List<SysUserEntity> list = baseDao.getList(params);
-
         return getPageData(list, page.getTotal(), SysUserDTO.class);
     }
 
@@ -60,16 +56,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
         if(user.getSuperAdmin() == SuperAdminEnum.NO.value()) {
             params.put("deptIdList", sysDeptService.getSubDeptIdList(user.getDeptId()));
         }
-
         List<SysUserEntity> entityList = baseDao.getList(params);
-
         return ConvertUtils.sourceToTarget(entityList, SysUserDTO.class);
     }
 
     @Override
     public SysUserDTO get(Long id) {
         SysUserEntity entity = baseDao.getById(id);
-
         return ConvertUtils.sourceToTarget(entity, SysUserDTO.class);
     }
 
@@ -83,15 +76,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
     @Transactional(rollbackFor = Exception.class)
     public void save(SysUserDTO dto) {
         SysUserEntity entity = ConvertUtils.sourceToTarget(dto, SysUserEntity.class);
-
         //密码加密
         String password = PasswordUtils.encode(entity.getPassword());
         entity.setPassword(password);
-
         //保存用户
         entity.setSuperAdmin(SuperAdminEnum.NO.value());
         insert(entity);
-
         //保存角色用户关系
         sysRoleUserService.saveOrUpdate(entity.getId(), dto.getRoleIdList());
     }
@@ -100,7 +90,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
     @Transactional(rollbackFor = Exception.class)
     public void update(SysUserDTO dto) {
         SysUserEntity entity = ConvertUtils.sourceToTarget(dto, SysUserEntity.class);
-
         //密码加密
         if(StringUtils.isBlank(dto.getPassword())){
             entity.setPassword(null);
@@ -108,10 +97,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
             String password = PasswordUtils.encode(entity.getPassword());
             entity.setPassword(password);
         }
-
         //更新用户
         updateById(entity);
-
         //更新角色用户关系
         sysRoleUserService.saveOrUpdate(entity.getId(), dto.getRoleIdList());
     }
@@ -121,7 +108,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
     public void delete(Long[] ids) {
         //逻辑删除
         logicDelete(ids, SysUserEntity.class);
-
         //角色用户关系，需要保留，不然逻辑删除就变成物理删除了
     }
 
@@ -129,7 +115,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
     @Transactional(rollbackFor = Exception.class)
     public void updatePassword(Long id, String newPassword) {
         newPassword = PasswordUtils.encode(newPassword);
-
         baseDao.updatePassword(id, newPassword);
     }
 

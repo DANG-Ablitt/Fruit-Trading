@@ -10,7 +10,7 @@ package platform.controller;
  import utils.Result;
  import validator.AssertUtils;
  import validator.ValidatorUtils;
-
+ import annotation.LogOperation;
  import java.util.HashMap;
  import java.util.List;
  import java.util.Map;
@@ -28,18 +28,27 @@ public class SysRoleController {
     @Autowired
     private SysRoleDataScopeService sysRoleDataScopeService;
 
+     /**
+      * 分页查询角色
+      */
     @GetMapping("page")
     public Result<PageData<SysRoleDTO>> page(@RequestParam Map<String, Object> params){
         PageData<SysRoleDTO> page = sysRoleService.page(params);
         return new Result<PageData<SysRoleDTO>>().ok(page);
     }
 
+     /**
+      * 加载角色列表
+      */
     @GetMapping("list")
     public Result<List<SysRoleDTO>> list(){
         List<SysRoleDTO> data = sysRoleService.list(new HashMap<>(1));
         return new Result<List<SysRoleDTO>>().ok(data);
     }
 
+     /**
+      * 根据列表加载角色消息
+      */
     @GetMapping("{id}")
     public Result<SysRoleDTO> get(@PathVariable("id") Long id){
         SysRoleDTO data = sysRoleService.get(id);
@@ -52,6 +61,9 @@ public class SysRoleController {
         return new Result<SysRoleDTO>().ok(data);
     }
 
+     /**
+      * 保存角色
+      */
     @PostMapping
     public Result save(@RequestBody SysRoleDTO dto){
         //效验数据
@@ -60,7 +72,11 @@ public class SysRoleController {
         return new Result();
     }
 
+     /**
+      * 修改角色
+      */
     @PutMapping
+    @LogOperation("Update Role")
     public Result update(@RequestBody SysRoleDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto);
@@ -68,6 +84,9 @@ public class SysRoleController {
         return new Result();
     }
 
+     /**
+      * 删除角色
+      */
     @DeleteMapping
     public Result delete(@RequestBody Long[] ids){
         //效验数据

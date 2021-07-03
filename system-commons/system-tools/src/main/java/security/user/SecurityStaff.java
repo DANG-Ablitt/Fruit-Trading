@@ -2,6 +2,7 @@ package security.user;
 
 import constant.Constant;
 import org.apache.commons.lang3.StringUtils;
+import redis.StaffDetailRedis;
 import utils.HttpContextUtils;
 import utils.SpringContextUtils;
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
  * 职员
  */
 public class SecurityStaff {
-    //private static StaffDetailRedis StaffDetailRedis;
-    //static {
-        //StaffDetailRedis = SpringContextUtils.getBean(StaffDetailRedis.class);
-    //}
+    private static StaffDetailRedis staffDetailRedis;
+    static {
+        staffDetailRedis = SpringContextUtils.getBean(StaffDetailRedis.class);
+    }
 
     /**
      * 获取职员信息
@@ -25,9 +26,8 @@ public class SecurityStaff {
             return null;
         }
         //从缓存中加载职员信息（根据职员标识）
-        //StaffDetail staff = StaffDetailRedis.getStaff(staffId);
-        //return staff;
-        return null;
+        StaffDetail staff = staffDetailRedis.get(staffId);
+        return staff;
     }
 
     /**

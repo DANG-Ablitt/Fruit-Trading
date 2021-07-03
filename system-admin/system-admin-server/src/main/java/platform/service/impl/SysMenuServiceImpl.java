@@ -110,7 +110,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenuEntit
     @Override
     public List<SysMenuDTO> getUserMenuList(StaffDetail staffDetail, Integer type) {
         List<SysMenuEntity> menuList;
-
         //系统管理员，拥有最高权限
         if(staffDetail.getSuperAdmin() == SuperAdminEnum.YES.value()){
             menuList = baseDao.getMenuList(type, HttpContextUtils.getLanguage());
@@ -128,7 +127,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenuEntit
         List<SysMenuDTO> menuList = sysMenuRedis.getUserMenuNavList(staffDetail.getId());
         if(menuList == null){
             menuList = getUserMenuList(staffDetail, MenuTypeEnum.MENU.value());
-
             sysMenuRedis.setUserMenuNavList(staffDetail.getId(), menuList);
         }
 

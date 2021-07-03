@@ -81,13 +81,10 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleDao, SysRoleEntit
     @Transactional(rollbackFor = Exception.class)
     public void save(SysRoleDTO dto) {
         SysRoleEntity entity = ConvertUtils.sourceToTarget(dto, SysRoleEntity.class);
-
         //保存角色
         insert(entity);
-
         //保存角色菜单关系
         sysRoleMenuService.saveOrUpdate(entity.getId(), dto.getMenuIdList());
-
         //保存角色数据权限关系
         sysRoleDataScopeService.saveOrUpdate(entity.getId(), dto.getDeptIdList());
     }

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
+        <version>2.1.0.RELEASE</version>
     </parent>
 
     <groupId>io.trading</groupId>
@@ -17,12 +17,13 @@
     <properties>
         <lombok.version>1.18.4</lombok.version>
         <docker.plugin.version>1.1.1</docker.plugin.version>
-        <spring.cloud.version>Finchley.SR2</spring.cloud.version>
+        <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
     </properties>
 
     <modules>
         <module>system-commons</module>
         <module>system-register</module>
+        <module>system-auth</module>
     </modules>
 
     <dependencyManagement>

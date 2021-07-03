@@ -1,19 +1,23 @@
 package platform.controller;
 
+import constant.Constant;
 import exception.ErrorCode;
+import org.springframework.http.HttpHeaders;
 import platform.dto.MenuResourceDTO;
 import platform.dto.SysMenuDTO;
 import platform.service.SysMenuService;
 import platform.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import redis.StaffDetailRedis;
 import security.user.StaffDetail;
 import security.user.UserDetail;
-import springfox.documentation.annotations.ApiIgnore;
+import utils.HttpContextUtils;
 import utils.Result;
 import validator.AssertUtils;
 import validator.ValidatorUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -24,12 +28,19 @@ import java.util.Set;
 @RequestMapping("menu")
 public class SysMenuController {
     @Autowired
+    private StaffDetailRedis staffDetailRedis;
+    @Autowired
     private SysMenuService sysMenuService;
     @Autowired
     private SysResourceService sysResourceService;
 
     @GetMapping("nav")
-    public Result<List<SysMenuDTO>> nav(StaffDetail staffDetail){
+    public Result<List<SysMenuDTO>> nav(StaffDetail staffDetail1){
+        //从请求头中获取用户id
+        HttpServletRequest request=new HttpContextUtils().getHttpServletRequest();
+        String key=request.getHeader(Constant.USER_KEY);
+        //从缓存中获取消息
+        StaffDetail staffDetail=staffDetailRedis.get(Long.valueOf(key));
         List<SysMenuDTO> list = sysMenuService.getUserMenuNavList(staffDetail);
         return new Result<List<SysMenuDTO>>().ok(list);
     }

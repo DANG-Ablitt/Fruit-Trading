@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //说明：redis的核心配置在system-tools模块的redis包里边
 //spring boot扫描不到，所有需要scanBasePackages里加入对应的包
 //否则会报错，但也必须把其他需要扫描的包一起加入（自定义）
-@SpringBootApplication(scanBasePackages={"redis","platform","log"})
+@SpringBootApplication(scanBasePackages={"redis","platform","log","utils"})
 @EnableDiscoveryClient
 @EnableFeignClients
 public class AuthApplication {

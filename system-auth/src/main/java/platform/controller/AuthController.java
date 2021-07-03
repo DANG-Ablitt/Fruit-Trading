@@ -37,10 +37,8 @@ public class AuthController {
     public void captcha(HttpServletResponse response, String uuid)throws IOException {
         //uuid不能为空
         AssertUtils.isBlank(uuid, ErrorCode.IDENTIFIER_NOT_NULL);
-
         //生成图片验证码
         BufferedImage image = captchaService.create(uuid);
-
         response.setHeader("Cache-Control", "no-store, no-cache");
         response.setContentType("image/jpeg");
         ServletOutputStream out = response.getOutputStream();
@@ -52,25 +50,20 @@ public class AuthController {
     public Result<AuthorizationDTO> login(@RequestBody LoginDTO login){
         //效验数据
         ValidatorUtils.validateEntity(login);
-
         //验证码是否正确
         boolean flag = captchaService.validate(login.getUuid(), login.getCaptcha());
         if(!flag){
             return new Result<AuthorizationDTO>().error(ErrorCode.CAPTCHA_ERROR);
         }
-
         //获取登录授权信息
         AuthorizationDTO authorization = authService.login(login);
-
         return new Result<AuthorizationDTO>().ok(authorization);
     }
 
     @PostMapping(value = "logout")
     public Result logout(HttpServletRequest request){
         String userId = request.getHeader(Constant.USER_KEY);
-
         authService.logout(Long.parseLong(userId));
-
         return new Result();
     }
 
@@ -83,9 +76,8 @@ public class AuthController {
      */
     @PostMapping("resource")
     public Result<StaffDetail> resource(@RequestParam(value = "token", required = false) String token,
-                                               @RequestParam("url") String url, @RequestParam("method") String method){
+                                        @RequestParam("url") String url, @RequestParam("method") String method){
         StaffDetail data = resourceService.resource(token, url, method);
-
         return new Result<StaffDetail>().ok(data);
     }
 }

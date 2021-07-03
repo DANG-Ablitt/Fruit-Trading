@@ -84,5 +84,4 @@ public class SysUserEntity extends BaseEntity {
 	 */
 	@TableField(exist = false)
 	private String deptName;
-
 }

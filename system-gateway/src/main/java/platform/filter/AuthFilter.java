@@ -26,8 +26,6 @@ import java.util.List;
 
 /**
  * 权限过滤器
- *
- * @since 1.0.0
  */
 @Configuration
 @ConfigurationProperties(prefix = "renren")
@@ -44,18 +42,15 @@ public class AuthFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String requestUri = request.getPath().pathWithinApplication().value();
-
         //请求放行，无需验证权限
         if(pathMatcher(requestUri)){
             return chain.filter(exchange);
         }
-
         //获取用户token
         String token = request.getHeaders().getFirst(Constant.TOKEN_HEADER);
         if(StringUtils.isBlank(token)){
             token = request.getQueryParams().getFirst(Constant.TOKEN_HEADER);
         }
-
         //资源访问权限
         String language = request.getHeaders().getFirst(HttpHeaders.ACCEPT_LANGUAGE);
         Result<StaffDetail> result = resourceFeignClient.resource(language, token, requestUri, request.getMethod().toString());
@@ -63,7 +58,6 @@ public class AuthFilter implements GlobalFilter {
         if(!result.success()){
             return response(exchange, result);
         }
-
         //获取用户信息
         StaffDetail userDetail = result.getData();
         if(userDetail != null){
@@ -71,7 +65,6 @@ public class AuthFilter implements GlobalFilter {
             ServerHttpRequest build = exchange.getRequest().mutate().header(Constant.USER_KEY, userDetail.getId()+"").build();
             return chain.filter(exchange.mutate().request(build).build());
         }
-
         return chain.filter(exchange);
     }
 

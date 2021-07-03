@@ -7,16 +7,12 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 网关服务
- * @since 1.0.0
  */
 @SpringBootApplication
 @EnableFeignClients
 @EnableDiscoveryClient
-
 public class GatewayApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }
-
 }

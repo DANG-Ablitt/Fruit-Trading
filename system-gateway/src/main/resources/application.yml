@@ -17,9 +17,14 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=0
-
-
-
+            #Admin服务
+        - id: system-admin-server
+          uri: lb://system-admin-server
+          order: 2
+          predicates:
+            - Path=/sys/**
+          filters:
+            - StripPrefix=0
 
 management:
   endpoints:
@@ -61,7 +66,7 @@ ribbon:
 
 renren:
   urls:
-    #请求验证码
+  #请求验证码
     - /auth/captcha
-    #登录
+  #登录
     - /auth/login

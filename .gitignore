@@ -28,3 +28,7 @@
 /system-register/target/
 /system-register/system-register.iml
 /system-register/target/
+/system-gateway/system-gateway.iml
+/system-gateway/target/
+/system-auth/target/
+/system-auth/system-auth.iml

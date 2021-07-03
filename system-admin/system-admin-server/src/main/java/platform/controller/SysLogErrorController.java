@@ -6,7 +6,6 @@ import platform.excel.SysLogErrorExcel;
 import platform.service.SysLogErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 import utils.ExcelUtils;
 import utils.Result;
 import javax.servlet.http.HttpServletResponse;

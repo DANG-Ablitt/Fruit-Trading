@@ -47,11 +47,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthorizationDTO login(LoginDTO login) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-
         //获取用户信息
         Result<StaffDetail> result = userFeignClient.getByUsername(login.getUsername());
         StaffDetail user = result.getData();
-
         //登录日志
         SysLogLogin log = new SysLogLogin();
         log.setType(LogTypeEnum.LOGIN.value());
@@ -60,7 +58,6 @@ public class AuthServiceImpl implements AuthService {
         log.setIp(IpUtils.getIpAddr(request));
         log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
         log.setIp(IpUtils.getIpAddr(request));
-
         //账号不存在
         if(user == null){
             log.setStatus(LoginStatusEnum.FAIL.value());
@@ -68,7 +65,6 @@ public class AuthServiceImpl implements AuthService {
             logProducer.saveLog(log);
             throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
         }
-
         //密码错误
         if(!PasswordUtils.matches(login.getPassword(), user.getPassword())){
             log.setStatus(LoginStatusEnum.FAIL.value());
@@ -77,7 +73,6 @@ public class AuthServiceImpl implements AuthService {
             logProducer.saveLog(log);
             throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
         }
-
         //账号停用
         if(user.getStatus() == UserStatusEnum.DISABLE.value()){
             log.setStatus(LoginStatusEnum.LOCK.value());
