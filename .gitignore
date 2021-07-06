@@ -32,3 +32,8 @@
 /system-gateway/target/
 /system-auth/target/
 /system-auth/system-auth.iml
+/system-api/system-api-client/target/
+/system-api/system-api-client/system-api-client.iml
+/system-api/system-api-server/target/
+/system-api/system-api-server/system-api-server.iml
+/system-api/system-api.iml
