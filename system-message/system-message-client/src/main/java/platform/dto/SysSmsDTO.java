@@ -48,5 +48,4 @@ public class SysSmsDTO implements Serializable {
      * 创建时间
      */
     private Date createDate;
-
 }

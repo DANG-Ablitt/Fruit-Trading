@@ -8,5 +8,8 @@ import platform.entity.SysSmsEntity;
  */
 @Mapper
 public interface SysSmsDao extends BaseDao<SysSmsEntity> {
+
+    String xinxi(String  xx);
+    String moban(String  xx);
 	
 }

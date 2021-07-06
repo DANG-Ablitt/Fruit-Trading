@@ -48,7 +48,6 @@ public class SysMailLogDTO implements Serializable {
     /**
      * 创建时间
      */
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date createDate;
 
 }

@@ -23,12 +23,12 @@ public class QcloudSmsService extends AbstractSmsService {
 
     @Override
     public void sendSms(String mobile, LinkedHashMap<String, String> params) {
-        this.sendSms(mobile, params, config.getQcloudSignName(), config.getQcloudTemplateId());
+        this.sendSms(mobile, params, config.getSignName(), config.getTemplate());
     }
 
     @Override
     public void sendSms(String mobile, LinkedHashMap<String, String> params, String signName, String template) {
-        SmsSingleSender sender = new SmsSingleSender(config.getQcloudAppId(), config.getQcloudAppKey());
+        SmsSingleSender sender = new SmsSingleSender(Integer.valueOf(config.getName()), config.getPassword());
 
         //短信参数
         ArrayList<String> paramsList = new ArrayList<>();

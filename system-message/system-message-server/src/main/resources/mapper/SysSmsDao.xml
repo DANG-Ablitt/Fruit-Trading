@@ -3,5 +3,14 @@
 
 <mapper namespace="platform.dao.SysSmsDao">
 
+    <!-- 根据参数编码，查询value -->
+    <select id="xinxi" resultType="String">
+        select param_value from sys_params where param_code = #{value} and del_flag = 0
+    </select>
+
+    <!-- 根据参数编码，查询value -->
+    <select id="moban" resultType="String">
+        select param_value from sys_params where param_code = #{value} and del_flag = 0
+    </select>
 
 </mapper>

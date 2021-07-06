@@ -33,33 +33,24 @@ public class DuanxinbaoSmsService extends AbstractSmsService
 
     @Override
     public void sendSms(String mobile, LinkedHashMap<String, String> params) {
-        this.sendSms(mobile, params, config.getDuanxinbaoSignName(), config.getDuanxinbaoTemplate());
+        this.sendSms(mobile, params, config.getSignName(), config.getTemplate());
     }
 
     @Override
     public void sendSms(String mobile, LinkedHashMap<String, String> params, String signName, String template) {
-
         //最后生成的字符串
         String duanxin="";
-
-        //短信参数
-        ArrayList<String> paramsList = new ArrayList<>();
-        if(MapUtil.isNotEmpty(params)){
-            for(String value : params.values()){
-                paramsList.add(value);
-            }
-        }
         //生成字符串
-        duanxin=config.getDuanxinbaoSignName()+
-                String.format(config.getDuanxinbaoTemplate(),
-                        paramsList.get(0),paramsList.get(1),
-                        paramsList.get(2),paramsList.get(3));
+        duanxin=config.getSignName()+
+                String.format(config.getTemplate(),
+                        params.get("captcha"),params.get("time"));
         //拼接URL
         StringBuffer httpArg = new StringBuffer();
-        httpArg.append("u=").append(config.getDuanxinbaoName()).append("&");
-        httpArg.append("p=").append(md5(config.getDuanxinbaoPassword())).append("&");
+        httpArg.append("u=").append(config.getName()).append("&");
+        httpArg.append("p=").append(md5(config.getPassword())).append("&");
         httpArg.append("m=").append(mobile).append("&");
         httpArg.append("c=").append(encodeUrlString( duanxin, "UTF-8"));
+        //返回0代表短信发送成功
         String result = request(httpUrl, httpArg.toString());
         System.out.println(result);
         int status= Constant.SUCCESS;

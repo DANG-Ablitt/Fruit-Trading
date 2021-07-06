@@ -6,6 +6,7 @@ import exception.RenException;
 import freemarker.template.Template;
 import platform.entity.SysMailTemplateEntity;
 import platform.exception.ModuleErrorCode;
+import platform.remote.ParamsRemoteService;
 import platform.service.SysMailLogService;
 import platform.service.SysMailTemplateService;
 import platform.utils.ModuleConstant;
@@ -28,8 +29,8 @@ import java.util.Properties;
 public class EmailUtils {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    //@Autowired
-    //private ParamsRemoteService paramsRemoteService;
+    @Autowired
+    private ParamsRemoteService paramsRemoteService;
     @Autowired
     private SysMailTemplateService sysMailTemplateService;
     @Autowired
@@ -65,8 +66,7 @@ public class EmailUtils {
             throw new RenException(ModuleErrorCode.MAIL_TEMPLATE_NOT_EXISTS);
         }
 
-        //EmailConfig config = paramsRemoteService.getValueObject(KEY, EmailConfig.class);
-        EmailConfig config=null;
+        EmailConfig config = paramsRemoteService.getValueObject(KEY, EmailConfig.class);
         JavaMailSenderImpl mailSender = createMailSender(config);
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         //设置utf-8编码
@@ -110,14 +110,11 @@ public class EmailUtils {
         //模板
         StringReader reader = new StringReader(content);
         Template template = new Template("mail", reader, null, "utf-8");
-
         //渲染模板
         StringWriter sw = new StringWriter();
         template.process(params, sw);
-
         content = sw.toString();
         sw.close();
-
         return content;
     }
 

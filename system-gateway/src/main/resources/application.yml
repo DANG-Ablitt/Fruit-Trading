@@ -17,12 +17,20 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=0
-            #Admin服务
+        #Admin服务
         - id: system-admin-server
           uri: lb://system-admin-server
           order: 2
           predicates:
             - Path=/sys/**
+          filters:
+            - StripPrefix=0
+        #消息服务
+        - id: system-message-server
+          uri: lb://system-message-server
+          order: 3
+          predicates:
+            - Path=/message/**
           filters:
             - StripPrefix=0
 
@@ -66,7 +74,9 @@ ribbon:
 
 renren:
   urls:
-  #请求验证码
+  #请求图形验证码
     - /auth/captcha
+  #请求数字验证码
+    - /message/sms/captcha
   #登录
     - /auth/login

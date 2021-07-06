@@ -17,51 +17,19 @@ public class SmsConfig implements Serializable {
      */
     private Integer platform;
     /**
-     * 阿里云AccessKeyId
+     * 短信发送平台账号
      */
-    private String aliyunAccessKeyId;
+    private String name;
     /**
-     * 阿里云AccessKeySecret
+     * 短信发送平台密码
      */
-    private String aliyunAccessKeySecret;
+    private String Password;
     /**
-     * 阿里云短信签名
+     * 短信签名
      */
-    private String aliyunSignName;
+    private String signName;
     /**
-     * 阿里云短信模板
+     * 短信模板
      */
-    private String aliyunTemplateCode;
-    /**
-     * 腾讯云AppId
-     */
-    private Integer qcloudAppId;
-    /**
-     * 腾讯云AppKey
-     */
-    private String qcloudAppKey;
-    /**
-     * 腾讯云短信签名
-     */
-    private String qcloudSignName;
-    /**
-     * 腾讯云短信模板ID
-     */
-    private String qcloudTemplateId;
-    /**
-     * 短信宝账号
-     */
-    private String duanxinbaoName;
-    /**
-     * 短信宝密码
-     */
-    private String duanxinbaoPassword;
-    /**
-     * 短信宝短信签名
-     */
-    private String duanxinbaoSignName;
-    /**
-     * 短信宝短信模板
-     */
-    private String duanxinbaoTemplate;
+    private String template;
 }

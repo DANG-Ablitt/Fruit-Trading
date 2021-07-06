@@ -29,5 +29,15 @@ public interface SysSmsService extends BaseService<SysSmsEntity> {
      * @param status   发送状态
      */
     void save(Integer platform, String mobile, LinkedHashMap<String, String> params, Integer status);
+
+    /**
+     * 获取短信平台连接信息（账号和密码）
+     */
+    String namepass(String name);
+
+    /**
+     * 获取短信模板信息（签名和模板）
+     */
+    String moban123(String name);
 }
 

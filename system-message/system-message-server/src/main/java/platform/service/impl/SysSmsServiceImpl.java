@@ -53,14 +53,16 @@ public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsDao, SysSmsEntity> 
         }catch (Exception e){
             throw new RenException(ErrorCode.JSON_FORMAT_ERROR);
         }
-
+        //获取短信模板标识
+        String template=map.get("template");
+        //删除集合中的模板消息
+        map.remove("template");
         //短信服务
         //通过工厂模式获取短信服务对象
-        AbstractSmsService service = SmsFactory.build();
+        AbstractSmsService service = SmsFactory.build(template);
         if(service == null){
             throw new RenException(ModuleErrorCode.SMS_CONFIG);
         }
-
         //发送短信
         service.sendSms(mobile, map);
     }
@@ -70,7 +72,6 @@ public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsDao, SysSmsEntity> 
         SysSmsEntity sms = new SysSmsEntity();
         sms.setPlatform(platform);
         sms.setMobile(mobile);
-
         //设置短信参数
         if(MapUtil.isNotEmpty(params)){
             int index = 1;
@@ -87,9 +88,17 @@ public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsDao, SysSmsEntity> 
                 index++;
             }
         }
-
         sms.setStatus(status);
-
         this.insert(sms);
+    }
+
+    @Override
+    public String namepass(String name) {
+        return baseDao.xinxi(name);
+    }
+
+    @Override
+    public String moban123(String name) {
+        return baseDao.moban(name);
     }
 }

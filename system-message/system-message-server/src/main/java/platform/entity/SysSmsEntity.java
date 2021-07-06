@@ -8,8 +8,6 @@ import mybatis_plus.entity.BaseEntity;
 
 /**
  * 短信
- * 
- * @author Mark sunlightcs@gmail.com
  */
 @Data
 @EqualsAndHashCode(callSuper=false)

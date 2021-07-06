@@ -43,7 +43,7 @@ public class AliyunSmsService extends AbstractSmsService {
     private void init(){
         try {
             //初始化acsClient，暂不支持region化
-            profile = DefaultProfile.getProfile("cn-hangzhou", config.getAliyunAccessKeyId(), config.getAliyunAccessKeySecret());
+            profile = DefaultProfile.getProfile("cn-hangzhou", config.getName(), config.getPassword());
             DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", PRODUCT, DOMAIN);
         } catch (ClientException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class AliyunSmsService extends AbstractSmsService {
 
     @Override
     public void sendSms(String mobile, LinkedHashMap<String, String> params) {
-        this.sendSms(mobile, params, config.getAliyunSignName(), config.getAliyunTemplateCode());
+        this.sendSms(mobile, params, config.getSignName(), config.getTemplate());
     }
 
     @Override
