@@ -62,12 +62,6 @@ public class ScheduleJobController {
 		scheduleJobService.run(ids);
 		return new Result();
 	}
-	@GetMapping("/run1/{ids}")
-	public Result run1(@PathVariable("ids") Long ids){
-		//scheduleJobService.run(ids);
-		ScheduleUtils.run(scheduler, scheduleJobDao.selectById(ids));
-		return new Result();
-	}
 
 	@PutMapping("/pause")
 	public Result pause(@RequestBody Long[] ids){

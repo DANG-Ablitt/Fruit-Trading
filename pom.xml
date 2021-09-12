@@ -24,6 +24,10 @@
         <module>system-commons</module>
         <module>system-register</module>
         <module>system-auth</module>
+        <module>system-shop</module>
+        <module>system-shop/system-shop-client</module>
+        <module>system-shop/system-shop-server</module>
+        <module>system-rabbitmq-client</module>
     </modules>
 
     <dependencyManagement>

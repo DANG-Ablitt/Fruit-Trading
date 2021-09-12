@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 public class MinioCloudStorageService extends AbstractCloudStorageService {
 
@@ -23,7 +24,7 @@ public class MinioCloudStorageService extends AbstractCloudStorageService {
 
     @Override
     public String uploadSuffix(byte[] data, String suffix) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, ErrorResponseException, InvalidBucketNameException {
-        return upload(data, getPath("img", suffix));
+        return upload(data, null);
     }
 
     @Override
@@ -32,15 +33,19 @@ public class MinioCloudStorageService extends AbstractCloudStorageService {
         /**
          * io.minio.errors.ErrorResponseException: The specified bucket does not exist
          * 指定的桶是不存在的,要么你把桶名写错了，要么没有创建桶
+         * io.minio.errors.ErrorResponseException: The difference between the request time and the server's time is too large.
+         * 请求时间和服务器的时间之间的差异过大(解决方案：https://www.jianshu.com/p/6ccfffd4402f)
          */
+        //生成uuid
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                 .bucket(config.getMinio_bucketName())
-                .object("123")
+                .object(uuid)
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
         minioClient.putObject(putObjectArgs);
         inputStream.close();
-        return config.getMinio_url()+ "/" + path;
+        return config.getMinio_url()+ "/" + config.getMinio_bucketName()+"/"+uuid;
     }
 
     @Override

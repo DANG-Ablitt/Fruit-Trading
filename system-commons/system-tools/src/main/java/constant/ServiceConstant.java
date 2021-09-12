@@ -12,4 +12,8 @@ public interface ServiceConstant {
      * 授权服务
      */
     String RENREN_AUTH_SERVER = "system-auth-server";
+    /**
+     * 定时任务
+     */
+    String RENREN_JOB_SERVER = "system-job-server";
 }

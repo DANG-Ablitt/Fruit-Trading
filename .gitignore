@@ -37,3 +37,12 @@
 /system-api/system-api-server/target/
 /system-api/system-api-server/system-api-server.iml
 /system-api/system-api.iml
+/system-oss/system-oss-client/target/
+/system-oss/system-oss-client/system-oss-client.iml
+/system-oss/system-oss-server/system-oss-server.iml
+/system-oss/system-oss-server/target/
+/system-oss/system-oss.iml
+/system-rabbitmq/system-rabbitmq-client/target/
+/system-rabbitmq/system-rabbitmq-client/system-rabbitmq-client.iml
+/system-rabbitmq/system-rabbitmq-server/target/
+/system-rabbitmq/system-rabbitmq-server/system-rabbitmq-server.iml

@@ -33,6 +33,47 @@ spring:
             - Path=/message/**
           filters:
             - StripPrefix=0
+        #定时任务服务
+        - id: system-job-server
+          uri: lb://system-job-server
+          order: 6
+          predicates:
+            - Path=/job/**
+          filters:
+            - StripPrefix=0
+        #APP流服务
+        - id: system-api-server
+          uri: lb://system-api-server
+          order: 7
+          predicates:
+            - Path=/api/**
+          filters:
+            - StripPrefix=0
+        #预购商品服务
+        - id: system-shop-server
+          uri: lb://system-shop-server
+          order: 7
+          predicates:
+            - Path=/shop/**
+          filters:
+            - StripPrefix=0
+        #OSS服务
+        - id: system-oss-server
+          uri: lb://system-oss-server
+          order: 8
+          predicates:
+            - Path=/oss/**
+          filters:
+            - StripPrefix=0
+        #库存服务
+        - id: system-ware-server
+          uri: lb://system-ware-server
+          order: 9
+          predicates:
+            - Path=/ware/**
+          filters:
+            - StripPrefix=0
+
 
 management:
   endpoints:

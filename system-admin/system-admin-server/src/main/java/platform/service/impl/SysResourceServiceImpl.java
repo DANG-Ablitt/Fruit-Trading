@@ -12,6 +12,7 @@ import platform.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import security.bo.ResourceBO;
+import security.enums.ResourceAuthEnum;
 import utils.ConvertUtils;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceDao, SysR
      */
     @Override
     public List<ResourceBO> getResourceList() {
-        List<SysResourceEntity> entityList = sysResourceRedis.get();
+        List<SysResourceEntity> entityList =null; //sysResourceRedis.get();
         if(entityList == null){
             entityList = baseDao.getResourceList();
             sysResourceRedis.set(entityList);
@@ -67,7 +68,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceDao, SysR
             entity.setResourceName(menuName);
             entity.setResourceUrl(dto.getResourceUrl());
             entity.setResourceMethod(dto.getResourceMethod());
-            //entity.setAuthLevel(ResourceAuthEnum.PERMISSIONS_AUTH.value());
+            entity.setAuthLevel(ResourceAuthEnum.PERMISSIONS_AUTH.value());
             entity.setMenuFlag(MenuFlagEnum.YES.value());
             //保存
             insert(entity);

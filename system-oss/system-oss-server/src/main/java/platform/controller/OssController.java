@@ -86,12 +86,10 @@ public class OssController {
 		ossEntity.setUrl(url);
 		ossEntity.setCreateDate(new Date());
 		ossService.insert(ossEntity);
-
 		//文件信息
 		UploadDTO dto = new UploadDTO();
 		dto.setUrl(url);
 		dto.setSize(file.getSize());
-
 		return new Result<UploadDTO>().ok(dto);
 	}
 
