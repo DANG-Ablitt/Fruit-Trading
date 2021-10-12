@@ -78,14 +78,15 @@ public class SmsController {
 	/**
 	 * 请求短信验证码（用于移动端登录）
 	 */
-	@GetMapping("captcha")
-	public void captcha(HttpServletResponse response,String mobile) throws IOException {
+	@PostMapping("captcha")
+	public void captcha(@RequestBody Map<String,String> mobileparams) throws IOException {
+		String mobile=mobileparams.get("mobile");
 		//uuid不能为空
 		AssertUtils.isBlank(mobile, ErrorCode.IDENTIFIER_NOT_NULL);
 		//生成验证码
 		String captcha=captchaService.create(mobile,"SMS_CAPTCHA_XX");
 		//响应返回
-		response.getWriter().write(captcha);
+		//response.getWriter().write(captcha);
 	}
 
 }

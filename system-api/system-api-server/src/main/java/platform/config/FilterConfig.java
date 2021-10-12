@@ -8,18 +8,18 @@ import xss.XssFilter;
 import javax.servlet.DispatcherType;
 
 /**
- * Filter配置
+ * Filter配置（防止XSS攻击）
  */
 @Configuration
 public class FilterConfig {
 
-    @Bean
-    public FilterRegistrationBean xssFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setDispatcherTypes(DispatcherType.REQUEST);
-        registration.setFilter(new XssFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("xssFilter");
-        return registration;
-    }
+    //@Bean
+    //public FilterRegistrationBean xssFilterRegistration() {
+        //FilterRegistrationBean registration = new FilterRegistrationBean();
+        //registration.setDispatcherTypes(DispatcherType.REQUEST);
+        //registration.setFilter(new XssFilter());
+        //registration.addUrlPatterns("/*");
+        //registration.setName("xssFilter");
+        //return null;
+    //}
 }

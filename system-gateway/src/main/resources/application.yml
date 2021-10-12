@@ -65,15 +65,22 @@ spring:
             - Path=/oss/**
           filters:
             - StripPrefix=0
-        #库存服务
-        - id: system-ware-server
-          uri: lb://system-ware-server
+        #消息中间件服务
+        - id: system-rabbitmq-server
+          uri: lb://system-rabbitmq-server
           order: 9
           predicates:
-            - Path=/ware/**
+            - Path=/rabbitmq/**
           filters:
             - StripPrefix=0
-
+        #消息中间件服务
+        - id: system-api-server
+          uri: lb://system-api-server
+          order: 10
+          predicates:
+            - Path=/api/**
+          filters:
+            - StripPrefix=0
 
 management:
   endpoints:
@@ -118,6 +125,10 @@ renren:
   #请求图形验证码
     - /auth/captcha
   #请求数字验证码
-    - /message/sms/captcha
-  #登录
+    - /api/auth/captcha
+  #PC登录
     - /auth/login
+  #手机APP登录
+    - /api/auth/login
+  #消息中间件（临时）
+    - /rabbitmq/*

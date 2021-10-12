@@ -43,13 +43,17 @@ public class CouponServiceImpl extends BaseServiceImpl<CouponDao, CouponEntity> 
         CouponEntity entity = ConvertUtils.sourceToTarget(dto, CouponEntity.class);
         //设置商品当前状态
         entity.setMemberlevel(0);
-        //手动处理无法自动转换的参数
-        //将前端传入的time0数组转换成json方便写入数据库
-        Map<String,String> map = new HashMap<String,String>();
-        map.put("start_time",dto.getTime0()[0]);
-        map.put("end_time",dto.getTime0()[1]);
-        String json= JSON.toJSONString(map);
-        entity.setTime0(json);
+        if(dto.getType()==0){
+            //手动处理无法自动转换的参数
+            //将前端传入的time0数组转换成json方便写入数据库
+            Map<String,String> map = new HashMap<String,String>();
+            map.put("start_time",dto.getTime0()[0]);
+            map.put("end_time",dto.getTime0()[1]);
+            String json= JSON.toJSONString(map);
+            entity.setTime0(json);
+        }else {
+            entity.setTime0("");
+        }
         //将商品信息写入数据库
         insert(entity);
         //判断优惠类型是预购还是秒杀
@@ -61,7 +65,13 @@ public class CouponServiceImpl extends BaseServiceImpl<CouponDao, CouponEntity> 
             String end_time=dto.getTime0()[1];
             //获取通知时间
             String time=dto.getTime1();
-            //通过消息队列发送短信通知用户
+            /**
+             * 通过消息队列发送短信通知用户
+             */
+            // 1.从Redis或数据库中获取全部会员基础信息（姓名+电话号）
+
+            // 2.将封装好的会员信息发送给消息队列
+
 
             //启动定时任务 在预购服务开始前15分钟将数据载入redis集群
             //封装用于定时任务的参数（JSON）
@@ -81,7 +91,7 @@ public class CouponServiceImpl extends BaseServiceImpl<CouponDao, CouponEntity> 
             /**
              * 通过消息队列发送短信通知用户
              */
-            //构建消息队列
+            //将全部会员手机号等信息发送给消息队列模块
 
             //
 

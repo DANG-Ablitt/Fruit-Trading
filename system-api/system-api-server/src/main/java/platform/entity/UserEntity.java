@@ -32,8 +32,8 @@ public class UserEntity implements Serializable {
 	/**
 	 * 密码
 	 */
-	@JSONField(serialize=false)
-	private String password;
+	//@JSONField(serialize=false)
+	private String captcha;
 	/**
 	 * 创建时间
 	 */

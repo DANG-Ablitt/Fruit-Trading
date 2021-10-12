@@ -41,6 +41,15 @@ public class CouponController {
      */
     @PostMapping
     public Result save(@RequestBody PmsCouponDTO dto){
+        /**
+         * bug记录：
+         * 因为前端的 el-date-picker 插件（传递的参数名为time0）
+         * 如果没有值时会传递 "" ,PmsCouponDTO中的time0为字符串数组
+         * @RequestBody 注解转换时会出错
+         *
+         * 解决方案：
+         * 在前端将time0的默认值设置为空（null）
+         */
         //效验数据
         ValidatorUtils.validateEntity(dto);
         //dto.setEndtime(DateUtils.parse(dto.getEndtime(),DateUtils.DATE_TIME_PATTERN));

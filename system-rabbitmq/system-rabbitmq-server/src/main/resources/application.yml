@@ -1,13 +1,24 @@
 server:
   port: 8025
   servlet:
-    context-path: /
+    context-path: /rabbitmq
 
 # rabbitmq地址
 #注意：
 #（1）端口号默认为5672，15672是可视化界面的访问端口
 #     写错会报 org.springframework.amqp.AmqpTimeoutException: java.util.concurrent.TimeoutException 异常
 spring:
+  application:
+    name: system-rabbitmq-server
+    #环境 dev|test|prod
+    profiles:
+      active: dev
+    messages:
+      encoding: UTF-8
+      basename: i18n/messages_common
+    jackson:
+      time-zone: GMT+8
+      date-format: yyyy-MM-dd HH:mm:ss
   rabbitmq:
     addresses: 10.0.0.11:5672
     username: admin
@@ -58,6 +69,18 @@ exchange:
   ignoreDeclarationExceptions: true
 key: routingKey.*
 
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
+    health-check-url-path: ${server.servlet.context-path}/actuator/health
+    status-page-url-path: ${server.servlet.context-path}/actuator/info
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
 
 # 延迟消息专用queue/exchange/routingKey
 delay:

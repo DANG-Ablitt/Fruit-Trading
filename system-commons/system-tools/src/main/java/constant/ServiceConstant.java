@@ -16,4 +16,8 @@ public interface ServiceConstant {
      * 定时任务
      */
     String RENREN_JOB_SERVER = "system-job-server";
+    /**
+     * 消息模块
+     */
+    String RENREN_MESSAGE_SERVER = "system-message-server";
 }

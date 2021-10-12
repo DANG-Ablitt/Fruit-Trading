@@ -14,8 +14,8 @@ public class LoginDTO {
     private String mobile;
 
     /**
-     * 密码
+     * 短信验证码
      */
-    private String password;
+    private String captcha;
 
 }

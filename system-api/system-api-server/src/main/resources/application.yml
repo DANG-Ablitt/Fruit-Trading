@@ -3,8 +3,6 @@ server:
   servlet:
     context-path: /api
 
-
-
 spring:
   application:
     name: system-api-server
@@ -17,6 +15,38 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    druid:
+      usernamedriver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.0.0.7:3306/Fruit-Trading?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+  redis:
+    database: 0
+    host: 10.0.0.6
+    timeout: 30s
+    password: 123456
+    port: 6379
+
 
 management:
   endpoints:

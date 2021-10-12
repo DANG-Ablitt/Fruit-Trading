@@ -21,6 +21,6 @@ public interface TokenService extends BaseService<TokenEntity> {
 	 * 设置token过期
 	 * @param userId 用户ID
 	 */
-	void expireToken(Long userId);
+	void expireToken(Long userId,Long id);
 
 }

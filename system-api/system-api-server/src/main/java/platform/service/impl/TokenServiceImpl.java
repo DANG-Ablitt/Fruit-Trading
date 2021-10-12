@@ -6,6 +6,7 @@ import platform.entity.TokenEntity;
 import platform.service.TokenService;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 
@@ -25,24 +26,22 @@ public class TokenServiceImpl extends BaseServiceImpl<TokenDao, TokenEntity> imp
 	public TokenEntity createToken(Long userId) {
 		//当前时间
 		Date now = new Date();
+		// 修改默认时区
+		//TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
 		//过期时间
 		Date expireTime = new Date(now.getTime() + EXPIRE * 1000);
-
 		//用户token
 		String token;
-
 		//判断是否生成过token
 		TokenEntity tokenEntity = baseDao.getByUserId(userId);
 		if(tokenEntity == null){
 			//生成一个token
 			token = generateToken();
-
 			tokenEntity = new TokenEntity();
 			tokenEntity.setUserId(userId);
 			tokenEntity.setToken(token);
 			tokenEntity.setUpdateDate(now);
 			tokenEntity.setExpireDate(expireTime);
-
 			//保存token
 			this.insert(tokenEntity);
 		}else{
@@ -53,27 +52,23 @@ public class TokenServiceImpl extends BaseServiceImpl<TokenDao, TokenEntity> imp
 			}else {
 				token = tokenEntity.getToken();
 			}
-
 			tokenEntity.setToken(token);
 			tokenEntity.setUpdateDate(now);
 			tokenEntity.setExpireDate(expireTime);
-
 			//更新token
 			this.updateById(tokenEntity);
 		}
-
 		return tokenEntity;
 	}
 
 	@Override
-	public void expireToken(Long userId){
+	public void expireToken(Long userId,Long id){
 		Date now = new Date();
-
 		TokenEntity tokenEntity = new TokenEntity();
+		tokenEntity.setId(id);
 		tokenEntity.setUserId(userId);
 		tokenEntity.setUpdateDate(now);
 		tokenEntity.setExpireDate(now);
-
 		this.updateById(tokenEntity);
 	}
 

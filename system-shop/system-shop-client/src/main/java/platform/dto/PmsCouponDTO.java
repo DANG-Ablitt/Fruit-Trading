@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 优惠卷
+ * 优惠商品
  */
 @Data
 public class PmsCouponDTO implements Serializable {
@@ -59,12 +59,11 @@ public class PmsCouponDTO implements Serializable {
      */
     private String detail;
     /**
-     * 抢购商品预约时间段
+     * 抢购商品时间
      */
+    //抢购时间段
     private String[] time0;
-    /**
-     * 抢购商品结果发布时间
-     */
+    //抢购商品结果发布时间
     private String time1;
     /**
      * 秒杀商品开始时间

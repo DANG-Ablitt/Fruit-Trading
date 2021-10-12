@@ -25,10 +25,12 @@ public class CaptchaRedis {
     public String get(String uuid){
         String key = RedisKeys.getLoginCaptchaKey(uuid);
         String captcha = (String)redisUtils.get(key);
+
         //删除验证码
         if(captcha != null){
             redisUtils.delete(key);
         }
+
         return captcha;
     }
 }

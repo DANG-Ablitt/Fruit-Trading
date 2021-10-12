@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * API模块
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"platform","utils","redis"})
 @EnableDiscoveryClient
 @EnableFeignClients
 public class ApiApplication {

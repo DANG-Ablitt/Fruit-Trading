@@ -18,6 +18,9 @@ import platform.serializer.impl.JacksonSerializerFactory;
 import java.util.Map;
 
 /**
+ * RabbitTemplate是发送消息的关键类，
+ * convertAndSend方法可以指定消息发送的交换器、路由键、消息内容等。
+ *
  *  池化封装/缓存
  *  	每一个topic 对应一个RabbitTemplate
  *  	1.	提高发送消息的效率

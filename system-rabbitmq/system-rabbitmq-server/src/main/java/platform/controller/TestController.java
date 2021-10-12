@@ -45,7 +45,6 @@ public class TestController {
         message.setMessageType(MessageType.RELIANT);
         message.setDelayMills(5000);
         producerClient.send(message);
-
         return "发送单条消息成功";
     }
 
@@ -61,16 +60,11 @@ public class TestController {
             Map<String,Object> attributes = new HashMap<>(2);
             attributes.put("name","张" + (i+1) + "疯");
             attributes.put("age",i);
-
-            Message message =
-                    new Message(messageId,exchangeName,"routingKey.demo",attributes,0);
-
+            Message message = new Message(messageId,exchangeName,"routingKey.demo",attributes,0);
             message.setDelayMills(5000);
             messages.add(message);
         }
-
         producerClient.send(messages);
-
         return "发送批量消息成功";
     }
 
@@ -84,13 +78,10 @@ public class TestController {
         Map<String,Object> attributes = new HashMap<>(2);
         attributes.put("name","张三");
         attributes.put("age","18");
-
-        Message message =
-                new Message(messageId,delayExchangeName,"delay.demo",attributes,5000);
+        Message message = new Message(messageId,delayExchangeName,"delay.demo",attributes,5000);
         // 发送可靠性消息
         message.setMessageType(MessageType.RELIANT);
         producerClient.send(message);
-
         return "发送单条延迟消息成功";
     }
 
