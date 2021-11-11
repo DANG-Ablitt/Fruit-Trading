@@ -26,6 +26,7 @@ public class ScheduleConfig {
         prop.put("org.quartz.scheduler.instanceName", "Scheduler");
         //必须唯一，在集群环境中作为集群的唯一key（这里配置quartz自动生成）
         prop.put("org.quartz.scheduler.instanceId", "AUTO");
+        prop.put("org.quartz.jobStore.misfireThreshold" ,"12000");
         /**
          * 线程池配置
          */
@@ -38,10 +39,10 @@ public class ScheduleConfig {
         factory.setQuartzProperties(prop);
         factory.setSchedulerName("Scheduler");
         //延时启动
-        factory.setStartupDelay(30);
+        //factory.setStartupDelay(30);
         factory.setApplicationContextSchedulerContextKey("applicationContextKey");
         //可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了
-        factory.setOverwriteExistingJobs(true);
+        //factory.setOverwriteExistingJobs(true);
         //设置自动启动，默认为true
         factory.setAutoStartup(true);
         return factory;

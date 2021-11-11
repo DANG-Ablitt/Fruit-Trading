@@ -10,6 +10,7 @@ import platform.dto.SysMenuDTO;
 import platform.entity.SysMenuEntity;
 import platform.enums.MenuTypeEnum;
 import platform.redis.SysMenuRedis;
+import platform.service.SysLanguageService;
 import platform.service.SysMenuService;
 import platform.service.SysResourceService;
 import platform.service.SysRoleMenuService;
@@ -38,6 +39,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenuEntit
     private SysRoleMenuService sysRoleMenuService;
     @Autowired
     private SysResourceService sysResourceService;
+    @Autowired
+    private SysLanguageService sysLanguageService;
 
     @Override
     public SysMenuDTO get(Long id) {
@@ -170,7 +173,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuDao, SysMenuEntit
     }
 
     private void saveLanguage(Long tableId, String fieldName, String fieldValue){
-        //sysLanguageService.saveOrUpdate("sys_menu", tableId, fieldName, fieldValue, HttpContextUtils.getLanguage());
+        sysLanguageService.saveOrUpdate("sys_menu", tableId, fieldName, fieldValue, HttpContextUtils.getLanguage());
     }
 
 }

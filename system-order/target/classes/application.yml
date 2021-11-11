@@ -1,0 +1,107 @@
+server:
+  port: 8049
+  servlet:
+    context-path: /order
+
+
+spring:
+  application:
+    name: system-order-server
+  # 环境 dev|test|prod
+  profiles:
+    active: dev
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages,i18n/messages_common
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+      enabled: true
+  datasource:
+    druid:
+      usernamedriver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.0.0.7:3306/Fruit-Trading?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+  redis:
+    database: 0
+    host: 10.0.0.10
+    timeout: 30s
+    password: 123456
+    port: 6379
+
+
+fdfs:
+  so-timeout: 600000
+  connect-timeout: 6000
+  tracker-list:            #TrackerList参数,支持多个
+  - 192.168.10.10:22122
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
+    health-check-url-path: ${server.servlet.context-path}/actuator/health
+    status-page-url-path: ${server.servlet.context-path}/actuator/info
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: platform.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: ID_WORKER
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_NULL
+      #驼峰下划线转换
+      column-underline: false
+    banner: false
+  #原生配置
+  configuration:
+    # mybatis-plus的坑：（自动驼峰命名）
+    # 说明：实体类中的userId字段被自动转换成user_id
+    # 解决：springBoot整合mybatis-plus关闭自动转换小驼峰命名规则
+    map-underscore-to-camel-case: false
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'

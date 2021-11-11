@@ -1,12 +1,15 @@
 package platform.controller;
 
 import annotation.LogOperation;
+import mybatis_plus.annotation.DataFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import page.PageData;
 import platform.dto.CouponReturnDTO;
 import platform.dto.PmsCouponDTO;
+import platform.dto.ReturnInfoDTO;
 import platform.dto.SysParamsDTO;
+import platform.entity.CouponEntity;
 import platform.service.CouponService;
 import utils.DateUtils;
 import utils.Result;
@@ -20,6 +23,7 @@ import java.util.Map;
 
 /**
  * 优惠商品管理（抢购和秒杀）
+ * 因为优惠商品
  */
 @RestController
 @RequestMapping("coupon")
@@ -30,6 +34,7 @@ public class CouponController {
     /**
      * 分页显示
      */
+    @DataFilter(tableAlias = "shop_coupon",deptId="dept_id",prefix="and")
     @GetMapping("page")
     public Result<PageData<CouponReturnDTO>> page(@RequestParam Map<String, Object> params){
         PageData<CouponReturnDTO> page = couponService.page(params);
@@ -39,21 +44,30 @@ public class CouponController {
     /**
      * 添加
      */
-    @PostMapping
-    public Result save(@RequestBody PmsCouponDTO dto){
-        /**
-         * bug记录：
-         * 因为前端的 el-date-picker 插件（传递的参数名为time0）
-         * 如果没有值时会传递 "" ,PmsCouponDTO中的time0为字符串数组
-         * @RequestBody 注解转换时会出错
-         *
-         * 解决方案：
-         * 在前端将time0的默认值设置为空（null）
-         */
+    @PostMapping("save")
+    public Result save(@RequestBody PmsCouponDTO dto) throws Exception {
         //效验数据
         ValidatorUtils.validateEntity(dto);
-        //dto.setEndtime(DateUtils.parse(dto.getEndtime(),DateUtils.DATE_TIME_PATTERN));
         couponService.save(dto);
         return new Result();
+    }
+
+    /**
+     * 根据id查询
+     */
+    @PostMapping("coupon_info_id")
+    public Result coupon_info_id(@RequestBody Map<String,String> params){
+        Long shopId= Long.parseLong(params.get("shopId"));
+        CouponEntity couponEntity=couponService.getShopByShopId(shopId);
+        return new Result().ok(couponEntity);
+    }
+
+    /**
+     * 查询商品详细信息
+     */
+    @GetMapping("{id}")
+    public Result<ReturnInfoDTO> coupon_info(@PathVariable("id") Long id){
+        ReturnInfoDTO data=couponService.get(id);
+        return new Result<ReturnInfoDTO>().ok(data);
     }
 }

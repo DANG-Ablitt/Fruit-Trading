@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 优惠商品
@@ -57,12 +58,12 @@ public class PmsCouponDTO implements Serializable {
     /**
      * 详细参数
      */
-    private String detail;
+    private List<ShopDetailDTO> detailList;
     /**
      * 抢购商品时间
      */
     //抢购时间段
-    private String[] time0;
+    private List<String> time0 = null;
     //抢购商品结果发布时间
     private String time1;
     /**

@@ -1,5 +1,5 @@
 server:
-  port: 8015
+  port: 8035
   servlet:
     context-path: /shop
 
@@ -50,6 +50,12 @@ spring:
     database: 0
     host: 10.0.0.6
     timeout: 30s
+    password: 123456
+    port: 6379
+  redis1:
+    database: 0
+    host: 10.0.0.10
+    timeout: 30
     password: 123456
     port: 6379
 

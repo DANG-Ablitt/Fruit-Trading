@@ -56,10 +56,8 @@ public class ScheduleJobServiceImpl extends BaseServiceImpl<ScheduleJobDao, Sche
 	@Transactional(rollbackFor = Exception.class)
 	public void save(ScheduleJobDTO dto) {
 		ScheduleJobEntity entity = ConvertUtils.sourceToTarget(dto, ScheduleJobEntity.class);
-
 		entity.setStatus(ScheduleStatusEnum.NORMAL.value());
         this.insert(entity);
-        
         ScheduleUtils.createScheduleJob(scheduler, entity);
     }
 	

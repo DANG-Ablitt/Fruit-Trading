@@ -193,6 +193,21 @@ CREATE TABLE sys_language (
   key idx_table_id (table_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='国际化';
 
+create table b_order
+(
+	id                   bigint not null comment '订单id',
+	userId               bigint not null comment '用户id',
+	shopId               bigint not null comment '商品id',
+	orderStatus          tinyint unsigned comment '订单状态   1：订单待支付2：订单待取货3：订单已完成4：订单已过期5：订单已取消',
+	address              varchar(500) comment '取货门店',
+	goodsPrice			 decimal comment '商品价格',
+	goodsAmount          tinyint unsigned comment '商品数量',
+	shopma               varchar(500) comment '取货码',
+	nowDate              datetime comment '生成时间',
+	updateDate           datetime comment '修改时间',
+	key idx_table_id (id)
+)ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COMMENT='订单服务';
+
 INSERT INTO sys_user(id, username, password, real_name, head_url, gender, email, mobile, dept_id, super_admin, status, remark, del_flag, creator, create_date, updater, update_date) VALUES (1067246875800000001, 'admin', '$2a$10$012Kx2ba5jzqr9gLlG4MX.bnQJTD9UWqF57XDo2N3.fPtLne02u/m', '超级管理员', NULL, 1, 'root@renren.io', '13512345678', NULL, 1, 1, NULL, 0, NULL, now(), NULL, now());
 
 INSERT INTO sys_language(table_name, table_id, field_name, field_value, language) VALUES ('sys_menu', 1067246875800000002, 'name', '权限管理', 'zh-CN');

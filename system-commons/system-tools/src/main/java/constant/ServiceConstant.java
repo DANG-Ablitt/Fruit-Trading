@@ -20,4 +20,16 @@ public interface ServiceConstant {
      * 消息模块
      */
     String RENREN_MESSAGE_SERVER = "system-message-server";
+    /**
+     * API服务
+     */
+    String RENREN_API_SERVER = "system-api-server";
+    /**
+     * 商品服务
+     */
+    String RENREN_SHOP_SERVER = "system-shop-server";
+    /**
+     * 消息中间件
+     */
+    String RENREN_RABBITMQ_SERVER = "system-rabbitmq-server";
 }

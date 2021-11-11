@@ -49,8 +49,9 @@ public class ScheduleUtils {
         	//构建job信息
             JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(getJobKey(scheduleJob.getId())).build();
             //表达式调度构建器
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
-            		.withMisfireHandlingInstructionDoNothing();
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression());
+            scheduleBuilder.withMisfireHandlingInstructionDoNothing();
+            //scheduleBuilder.build();
             //按新的cronExpression表达式构建一个新的trigger
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getId())).withSchedule(scheduleBuilder).build();
             //放入参数，运行时的方法可以获取
@@ -75,7 +76,7 @@ public class ScheduleUtils {
 
             //表达式调度构建器
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression())
-            		.withMisfireHandlingInstructionDoNothing();
+                    .withMisfireHandlingInstructionDoNothing();
 
             CronTrigger trigger = getCronTrigger(scheduler, scheduleJob.getId());
             
@@ -86,14 +87,15 @@ public class ScheduleUtils {
             trigger.getJobDataMap().put(JOB_PARAM_KEY, scheduleJob);
             
             scheduler.rescheduleJob(triggerKey, trigger);
-            JobDataMap dataMap = new JobDataMap();
-            dataMap.put(JOB_PARAM_KEY, scheduleJob);
-            scheduler.triggerJob(getJobKey(scheduleJob.getId()), dataMap);
+            //JobDataMap dataMap = new JobDataMap();
+            //dataMap.put(JOB_PARAM_KEY, scheduleJob);
+            //scheduler.triggerJob(getJobKey(scheduleJob.getId()), dataMap);
             
             //暂停任务
             if(scheduleJob.getStatus() == ScheduleStatusEnum.PAUSE.value()){
             	pauseJob(scheduler, scheduleJob.getId());
             }
+            //scheduler.start();
             
         } catch (SchedulerException e) {
             throw new RenException(ModuleErrorCode.JOB_ERROR, e);

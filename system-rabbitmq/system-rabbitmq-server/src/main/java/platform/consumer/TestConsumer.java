@@ -55,7 +55,6 @@ public class TestConsumer {
 
         // 1.收到消息之后进行业务端消费处理
         log.info("【消费消息】:{}", message);
-
         // 2.处理成功后,获取deliveryTag并进行手工ack签收
         // 原因:配置文件acknowledge-mode为manual
         Long deliveryTag = (Long)headers.get(AmqpHeaders.DELIVERY_TAG);

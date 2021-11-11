@@ -48,7 +48,7 @@ public class SysUserController {
     private SysResourceService sysResourceService;
 
     /**
-     * 分页查询用户书记
+     * 分页查询用户
      */
     @GetMapping("page")
     public Result<PageData<SysUserDTO>> page(@RequestParam Map<String, Object> params){

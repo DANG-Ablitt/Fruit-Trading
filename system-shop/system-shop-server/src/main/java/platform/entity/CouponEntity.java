@@ -24,6 +24,10 @@ public class CouponEntity extends BaseEntity {
 	 */
 	private Long id;
 	/**
+	 * 所在部门id
+	 */
+	private Long deptId;
+	/**
 	 * 产品名称
 	 */
 	private String name;
@@ -61,7 +65,7 @@ public class CouponEntity extends BaseEntity {
 	 */
 	private String url;
 	/**
-	 * 详细参数
+	 * 详细参数（json）
 	 */
 	private String detail;
 	/**

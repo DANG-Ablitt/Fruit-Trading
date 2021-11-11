@@ -46,3 +46,5 @@
 /system-rabbitmq/system-rabbitmq-client/system-rabbitmq-client.iml
 /system-rabbitmq/system-rabbitmq-server/target/
 /system-rabbitmq/system-rabbitmq-server/system-rabbitmq-server.iml
+/system-spike/system-spike.iml
+/system-spike/target/

@@ -55,11 +55,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleDao, SysRoleEntit
 
     private QueryWrapper<SysRoleEntity> getWrapper(Map<String, Object> params){
         String name = (String)params.get("name");
-
         QueryWrapper<SysRoleEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(Constant.DEL_FLAG, DelFlagEnum.NORMAL.value());
         wrapper.like(StringUtils.isNotBlank(name), "name", name);
-
         //普通管理员，只能查询所属部门及子部门的数据
         StaffDetail user = SecurityStaff.getStaff();
         if(user.getSuperAdmin() == SuperAdminEnum.NO.value()) {

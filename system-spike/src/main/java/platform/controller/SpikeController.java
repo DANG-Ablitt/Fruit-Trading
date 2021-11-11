@@ -58,14 +58,14 @@ public class SpikeController {
     @PostMapping
     public Result Info(@RequestBody SpikeDTO dto){
         //1.检查接口是否重复调用
-        if(redisTemplate.opsForValue().get(dto.getId()+dto.getToken()).equals("1")){
+        if(redisUtils.get(dto.getId()+dto.getToken()).equals("1")){
             //如果在1min内重复调用，执行返回操作
             return new Result();
         }
         //如果不是接口重复调用，将接口标识写入Redis
-        redisTemplate.opsForValue().set(dto.getId()+dto.getToken(),"1",60,TimeUnit.SECONDS);
+        redisUtils.set(dto.getId()+dto.getToken(),"1",60);
         //2.检查秒杀活动是否开始（状态标志是否置1）
-        if(Integer.valueOf(redisTemplate.opsForValue().get(dto.getId()+"info"))!=1){
+        if((int)redisUtils.get(dto.getId()+"info")!=1){
             //如果秒杀未在进行中，执行返回操作
             return new Result();
         }
@@ -85,26 +85,32 @@ public class SpikeController {
             //如果token为空，执行返回操作
             return new Result();
         }
+        /**
+         * Bug 记录：
+         * Redis和MySQL中的数据一致性问题
+         * MySQL中的数据由api模块插入和更新，秒杀模块只负责读取
+         * 现在的问题：如果token关联信息载入redis后，用户重新登录，会出现数据不一致
+         */
         //token 是否过期
         if(getToken(dto.getToken())){
             //如果token过期，执行返回操作
             return new Result();
         }
         //6.判断用户是否已经参与过秒杀活动
-        if(!redisTemplate.opsForSet().isMember("11","12")){
+        if(!redisTemplate.opsForSet().isMember(dto.getId()+"_list",dto.getId())){
             return new Result();
         }
         //7.获取分布式锁
-        RLock Lock = redisson.getLock(dto.getId()+"lock");
+        RLock Lock = redisson.getLock(dto.getId()+"_lock");
         //设置分布式锁的过期时间
-        Lock.lock(3, TimeUnit.SECONDS);
+        Lock.lock(30, TimeUnit.SECONDS);
         try {
             //从缓存中读取商品库存数量
-            Integer count = Integer.valueOf(redisTemplate.opsForValue().get(dto.getId()+"count"));
+            Integer count = (Integer) redisUtils.get(dto.getId()+"count");
             //有货
             if (count > 0) {
                 //8.库存减一
-                redisTemplate.opsForValue().set(dto.getId()+"count", String.valueOf(count - 1));
+                redisUtils.set(dto.getId()+"count", String.valueOf(count - 1));
                 //将用户id存储在 Redis中
                 redisTemplate.opsForSet().add("11", String.valueOf(user_id));
                //9.后续处理由消息中间件完成
@@ -121,7 +127,7 @@ public class SpikeController {
      * md5 加密（对商品id和用户token重新加密检查数据有没有被篡改）
      */
     private String getMD5(long Id,String token) {
-        String base = Id + token+"/" + salt;
+        String base = Id + token+"/"+ salt;
         String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
         return md5;
     }

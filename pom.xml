@@ -27,7 +27,9 @@
         <module>system-shop</module>
         <module>system-shop/system-shop-client</module>
         <module>system-shop/system-shop-server</module>
-        <module>system-rabbitmq-client</module>
+        <module>system-spike</module>
+        <module>system-order</module>
+        <module>system-pay</module>
     </modules>
 
     <dependencyManagement>

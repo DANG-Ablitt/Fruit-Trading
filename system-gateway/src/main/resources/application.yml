@@ -74,11 +74,11 @@ spring:
           filters:
             - StripPrefix=0
         #消息中间件服务
-        - id: system-api-server
-          uri: lb://system-api-server
+        - id: system-order-server
+          uri: lb://system-order-server
           order: 10
           predicates:
-            - Path=/api/**
+            - Path=/order/**
           filters:
             - StripPrefix=0
 
@@ -132,3 +132,9 @@ renren:
     - /api/auth/login
   #消息中间件（临时）
     - /rabbitmq/*
+  #订单服务（临时）
+    - /order/*/*
+  #商品服务（临时）
+    - /shop/coupon/coupon_info_id
+  #用户服务（临时）
+    - /api/auth/info_user_id

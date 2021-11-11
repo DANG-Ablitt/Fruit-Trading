@@ -26,28 +26,37 @@ import java.util.Map;
 @Aspect
 @Component
 public class DataFilterAspect {
+
+    /**
+     * 通过ThreadLocal记录权限相关的属性值
+     */
+    ThreadLocal<DataScope> threadLocal = new ThreadLocal<>();
+
+    public ThreadLocal<DataScope> getThreadLocal() {
+        return threadLocal;
+    }
+
     @Pointcut("@annotation(mybatis_plus.annotation.DataFilter)")
     public void dataFilterCut() {
 
     }
 
     @Before("dataFilterCut()")
-    public void dataFilter(JoinPoint point) {
+    public Map dataFilter(JoinPoint point) throws Exception {
         Object params = point.getArgs()[0];
         if(params != null && params instanceof Map){
             StaffDetail staff = SecurityStaff.getStaff();
             //如果是超级管理员，则不进行数据过滤
             if(staff.getSuperAdmin() == SuperAdminEnum.YES.value()) {
-                return ;
+                return null;
             }
-            try {
-                //否则进行数据过滤
-                Map map = (Map)params;
-                String sqlFilter = getSqlFilter(staff, point);
-                map.put(Constant.SQL_FILTER, new DataScope(sqlFilter));
-            }catch (Exception e){
-            }
-            return ;
+            //否则进行数据过滤
+            Map map = (Map)params;
+            String sqlFilter = getSqlFilter(staff, point);
+            map.put(Constant.SQL_FILTER, new DataScope(sqlFilter));
+            //从本地线程池中获取拼接SQL
+            threadLocal.set(new DataScope(sqlFilter));
+            return map;
         }
 
         throw new RenException(ErrorCode.DATA_SCOPE_PARAMS_ERROR);

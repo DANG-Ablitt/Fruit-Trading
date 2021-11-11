@@ -3,7 +3,9 @@ package platform.controller;
 
 import exception.ErrorCode;
 import platform.annotation.Login;
+import platform.annotation.LoginUser;
 import platform.dto.LoginDTO;
+import platform.entity.UserEntity;
 import platform.feign.MessageFeignClient;
 import platform.service.TokenService;
 import platform.service.UserService;
@@ -60,5 +62,15 @@ public class ApiLoginController {
     public Result logout(@RequestAttribute("userId") Long userId,@RequestAttribute("id") Long id){
         tokenService.expireToken(userId,id);
         return new Result();
+    }
+
+    /**
+     * 根据用户id查询用户信息
+     */
+    @PostMapping("info_user_id")
+    public Result info_user_id(@RequestBody Map<String,String> params){
+        Long user_id= Long.parseLong(params.get("user_id"));
+        UserEntity user=userService.getUserByUserId(user_id);
+        return new Result<UserEntity>().ok(user);
     }
 }
