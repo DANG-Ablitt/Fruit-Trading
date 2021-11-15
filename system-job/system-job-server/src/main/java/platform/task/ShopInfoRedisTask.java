@@ -26,6 +26,7 @@ public class ShopInfoRedisTask implements ITask{
 		System.out.println("ShopInfoRedisTask定时任务正在执行，参数为：{}");
 		// 修改 redis 集群中的开始标志
 		redisUtils.set(params+"_info",1);
+		// 修改数据库中的状态标志
 	}
 
 	public static void main(String[] args) {

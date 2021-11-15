@@ -170,7 +170,6 @@ public class CouponServiceImpl extends BaseServiceImpl<CouponDao, CouponEntity> 
                 //消息中间件完成以下工作
                 //（1）如果距离秒杀开始时间不小于12小时，由定时任务将秒杀数据写入redis
                 //（2）启动定时任务 在秒杀服务开始时将状态标记开启
-                //（3）启动定时任务 在秒杀服务结束后出具统计信息
                 Map<String,Object> params = new HashMap<String,Object>();
                 // 发送标志
                 params.put("flag",1);
@@ -185,8 +184,20 @@ public class CouponServiceImpl extends BaseServiceImpl<CouponDao, CouponEntity> 
             }
         }
         // 抢购的预处理
+        /**
+         * 抢购服务专用
+         * 商品状态：商品id+"_info"
+         * 用户集合：商品id+"_list"
+         */
         if( dto.getType()==0 ){
 
+            /**
+             * 正常情况下需要的工作
+             * 1.开始前将数据写入redis
+             * 2.开始时将标志置1 状态置 1
+             * 3.结束时将标志置0 状态置 2
+             * 4.公布结果
+             */
         }
     }
 

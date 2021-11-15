@@ -12,10 +12,6 @@ public class ShopInfoDTO implements Serializable {
      */
     private String pic;
     /**
-     * 图片url
-     */
-    private String url;
-    /**
      * 详细参数（json）
      */
     private String detail;
