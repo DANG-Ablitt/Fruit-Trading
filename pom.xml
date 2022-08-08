@@ -29,7 +29,6 @@
         <module>system-job</module>
         <module>system-spike</module>
         <module>system-order</module>
-        <module>system-pay</module>
     </modules>
 
     <dependencyManagement>
