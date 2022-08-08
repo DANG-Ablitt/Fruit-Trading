@@ -25,6 +25,7 @@
         <module>system-register</module>
         <module>system-auth</module>
         <module>system-shop</module>
+        <module>system-admin</module>
         <module>system-spike</module>
         <module>system-order</module>
         <module>system-pay</module>
