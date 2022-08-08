@@ -26,6 +26,7 @@
         <module>system-auth</module>
         <module>system-shop</module>
         <module>system-admin</module>
+        <module>system-job</module>
         <module>system-spike</module>
         <module>system-order</module>
         <module>system-pay</module>
