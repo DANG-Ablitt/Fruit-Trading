@@ -21,22 +21,18 @@ public class CaptchaServiceImpl implements CaptchaService {
     public BufferedImage create(String uuid) {
         //生成验证码
         String captcha = producer.createText();
-
         //保存验证码
         captchaRedis.set(uuid, captcha);
-
         return producer.createImage(captcha);
     }
 
     @Override
     public boolean validate(String uuid, String code) {
         String captcha = captchaRedis.get(uuid);
-
         //验证码是否正确
         if(code.equalsIgnoreCase(captcha)){
            return true;
         }
-
         return false;
     }
 }
