@@ -14,7 +14,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 public class RegisterApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(RegisterApplication.class, args);
+
+        // 移除内置tomcat
+        new SpringApplicationBuilder(RegisterApplication.class);
     }
 
     @Override
