@@ -15,8 +15,7 @@ public class RegisterApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
-        // 移除内置tomcat
-        new SpringApplicationBuilder(RegisterApplication.class);
+        SpringApplication.run(RegisterApplication.class, args);
     }
 
     @Override
