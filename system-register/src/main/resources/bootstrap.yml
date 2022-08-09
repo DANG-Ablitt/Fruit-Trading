@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 8761
 
 spring:
   application:
@@ -8,7 +8,7 @@ spring:
 eureka:
   server:
     enable-self-preservation: false
-    url: http://10.0.0.10:8888/eureka/
+    url: http://10.0.0.10:8761
 
   client:
     registerWithEureka: false
