@@ -20,25 +20,10 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-apache-client4</artifactId>
-            <version>1.19.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-openfeign-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- 移除内置的tomcat插件 -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+        <!--排除自带tomcat-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -46,9 +31,57 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!-- 集群环境 -->
+        <profile>
+            <id>peer1</id>
+            <properties>
+                <profileActive>peer1</profileActive>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>peer2</id>
+            <properties>
+                <profileActive>peer2</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>peer3</id>
+            <properties>
+                <profileActive>peer3</profileActive>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 处理文件时替换文件中的变量 -->
+                <filtering>true</filtering>
+                <excludes>
+                    <!-- 打包时排除文件 -->
+                    <exclude>application.yml</exclude>
+                    <exclude>application-peer1.yml</exclude>
+                    <exclude>application-peer2.yml</exclude>
+                    <exclude>application-peer3.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <!-- 打包时所包含得文件 -->
+                <includes>
+                    <include>application.yml</include>
+                    <include>application-${profileActive}.yml</include>
+                </includes>
+            </resource>
+        </resources>
+        <!--<plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -64,7 +97,7 @@
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
             </plugin>
-        </plugins>
+        </plugins>-->
     </build>
 
 </project>
