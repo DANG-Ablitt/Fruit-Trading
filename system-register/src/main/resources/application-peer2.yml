@@ -1,9 +1,12 @@
 server:
-  port: 8889
+  port: 8080
 eureka:
   instance:
-    prefer-ip-address: true #以IP地址注册到服务中心，相互注册使用IP地址
-    ip-address: 172.17.0.3 #强制指定IP地址，默认会获取本机的IP地址
+    hostname: peer2
+    #prefer-ip-address: true #以IP地址注册到服务中心，相互注册使用IP地址
+    #ip-address: 192.168.0.6 #强制指定IP地址，默认会获取本机的IP地址
   client:
+    #register-with-eureka: false
+    #fetch-registry: false
     service-url:
-      defaultZone: http://172.17.0.2:8888/eureka/,http://172.17.0.3:8889/eureka/,http://172.17.0.4:8890/eureka/
+      defaultZone: http://peer1/eureka/,http://peer2/eureka/,http://peer3/eureka/

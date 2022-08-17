@@ -1,6 +1,6 @@
 spring:
-  application:
-    name: system-register-server
+  #application:
+    #name: system-register-server
   profiles:
     active: @profileActive@
 
