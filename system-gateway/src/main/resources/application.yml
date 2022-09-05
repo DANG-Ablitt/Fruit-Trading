@@ -93,8 +93,8 @@ management:
 
 eureka:
   instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # prefer-ip-address: true
+    # instance-id: ${spring.cloud.client.ip-address}:${server.port}
     metadata-map:
       management:
         context-path: /actuator
