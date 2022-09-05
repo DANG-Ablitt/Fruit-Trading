@@ -23,6 +23,7 @@
     <modules>
         <module>system-commons</module>
         <module>system-register</module>
+        <module>system-gateway</module>
         <module>system-auth</module>
         <module>system-shop</module>
         <module>system-admin</module>
