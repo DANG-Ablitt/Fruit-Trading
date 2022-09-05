@@ -1,7 +1,4 @@
-FROM java:8
-EXPOSE 8081
-
-VOLUME /tmp
-ADD renren-auth.jar /app.jar
-RUN bash -c 'touch /app.jar'
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:8u121
+EXPOSE 8080
+ADD system-auth.jar /system-auth.jar
+ENTRYPOINT ["java","-jar","/system-auth.jar"]

@@ -1,5 +1,5 @@
 server:
-  port: 8066
+  port: 8080
   servlet:
     context-path: /auth
 
@@ -20,11 +20,24 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   redis:
     database: 0
-    host: 10.0.0.6
-    timeout: 30s
+    # host: 10.0.0.6
+    # timeout: 30s
     password: 123456
-    port: 6379
-
+    # port: 6379
+    # Redis Cluster集群节点配置
+    cluster:
+      # Redis 集群地址信息
+      nodes:
+        - 192.166.0.2:6379
+        - 192.166.0.3:6380
+        - 192.166.0.4:6381
+        - 192.166.0.5:6382
+        - 192.166.0.6:6383
+        - 192.166.0.7:6384
+        - 192.166.0.8:6385
+        - 192.166.0.9:6386
+        - 192.166.0.10:6387
+        - 192.166.0.11:6388
 
 management:
   endpoints:
@@ -47,7 +60,7 @@ eureka:
   client:
     service-url:
       #监控页面
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://peer1:8080/eureka/,http://peer2:8080/eureka/,http://peer3:8080/eureka/
 
 feign:
   hystrix:
@@ -69,6 +82,6 @@ ribbon:
 
 jwt:
   #秘钥
-  secret: f4e2e52034348f86b67cde5[www.renren.io]
+  secret: f4e2e52034348f86b67cde5
   #token有效时长，默认7天，单位秒
   expire: 604800
