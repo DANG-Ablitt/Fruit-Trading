@@ -1,7 +1,4 @@
 FROM java:8
 EXPOSE 8080
-
-VOLUME /tmp
-ADD renren-gateway.jar /app.jar
-RUN bash -c 'touch /app.jar'
-ENTRYPOINT ["java","-jar","/app.jar"]
+ADD system-gateway.jar /data/gateway/system-gateway.jar
+ENTRYPOINT ["java","-jar","/data/gateway/system-gateway.jar"]

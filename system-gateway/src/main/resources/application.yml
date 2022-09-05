@@ -102,7 +102,7 @@ eureka:
     status-page-url-path: /actuator/info
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://peer1:8080/eureka/,http://peer2:8080/eureka/,http://peer3:8080/eureka/
 
 feign:
   hystrix:
