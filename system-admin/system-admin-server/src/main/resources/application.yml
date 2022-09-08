@@ -1,5 +1,5 @@
 server:
-  port: 8089
+  port: 8080
   servlet:
     context-path: /sys
 
@@ -42,11 +42,25 @@ spring:
             merge-sql: false
 
   redis:
-    database: 0
-    host: 10.0.0.6
-    timeout: 30s
+    # database: 0
+    # host: 10.0.0.6
+    # timeout: 30s
     password: 123456
-    port: 6379
+    # port: 6379
+    # Redis Cluster集群节点配置
+    cluster:
+      # Redis 集群地址信息
+      nodes:
+        - 192.166.0.2:6379
+        - 192.166.0.3:6380
+        - 192.166.0.4:6381
+        - 192.166.0.5:6382
+        - 192.166.0.6:6383
+        - 192.166.0.7:6384
+        - 192.166.0.8:6385
+        - 192.166.0.9:6386
+        - 192.166.0.10:6387
+        - 192.166.0.11:6388
 
 eureka:
   instance:
@@ -59,7 +73,7 @@ eureka:
     status-page-url-path: ${server.servlet.context-path}/actuator/info
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://peer1:8080/eureka/,http://peer2:8080/eureka/,http://peer3:8080/eureka/
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
