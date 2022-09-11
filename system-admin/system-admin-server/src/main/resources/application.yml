@@ -18,7 +18,7 @@ spring:
   datasource:
       druid:
         usernamedriver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://10.0.0.10:3306/Fruit-Trading?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://192.160.0.2:3306/Fruit-Trading?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&&serverTimezone=Asia/Shanghai
         username: root
         password: 123456
         initial-size: 10
