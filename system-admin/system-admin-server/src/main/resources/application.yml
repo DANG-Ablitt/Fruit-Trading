@@ -65,6 +65,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+    ip-address: ${spring.cloud.client.ip-address}
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
     metadata-map:
       management:
