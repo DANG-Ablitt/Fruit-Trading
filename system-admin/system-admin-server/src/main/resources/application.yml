@@ -64,6 +64,7 @@ spring:
 
 eureka:
   instance:
+    # Docker部署 Feign 调用服务报错 添加，需要研究一下
     prefer-ip-address: true
     ip-address: ${spring.cloud.client.ip-address}
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
