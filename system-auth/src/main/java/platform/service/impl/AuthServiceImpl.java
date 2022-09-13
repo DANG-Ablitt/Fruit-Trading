@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthorizationDTO login(LoginDTO login) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        //获取用户信息
+        // 从admin主服务模块获取用户信息
         Result<StaffDetail> result = userFeignClient.getByUsername(login.getUsername());
         StaffDetail user = result.getData();
         //登录日志
@@ -80,15 +80,15 @@ public class AuthServiceImpl implements AuthService {
             logProducer.saveLog(log);
             throw new RenException(ErrorCode.ACCOUNT_DISABLE);
         }
-        //保存到Redis
+        // 保存用户信息到Redis
         staffDetailRedis.set(user, jwtProperties.getExpire());
-        //登录成功，生成token
+        // 登录成功，生成token
         String token = jwtUtils.generateToken(user.getId());
-        //授权信息
+        // 授权信息
         AuthorizationDTO authorization = new AuthorizationDTO();
         authorization.setToken(token);
         authorization.setExpire(jwtProperties.getExpire());
-        //登录用户信息
+        // 登录用户信息
         log.setCreator(user.getId());
         log.setCreatorName(user.getUsername());
         log.setStatus(LoginStatusEnum.SUCCESS.value());
