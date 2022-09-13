@@ -2,6 +2,8 @@ package platform.controller;
 
 import constant.Constant;
 import exception.ErrorCode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import platform.dto.AuthorizationDTO;
 import platform.dto.LoginDTO;
 import platform.service.AuthService;
@@ -26,6 +28,7 @@ import java.io.IOException;
  */
 @RestController
 public class AuthController {
+    private static final Logger LOGGER = LogManager.getLogger();
     @Autowired
     private AuthService authService;
     @Autowired
@@ -35,6 +38,7 @@ public class AuthController {
 
     @GetMapping("captcha")
     public void captcha(HttpServletResponse response, String uuid)throws IOException {
+        LOGGER.info("日志输出======================================"+uuid);
         //uuid不能为空
         AssertUtils.isBlank(uuid, ErrorCode.IDENTIFIER_NOT_NULL);
         //生成图片验证码
